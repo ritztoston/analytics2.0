@@ -1,0 +1,21 @@
+export const GET_ERRORS = 'GET_ERRORS';
+export const CLEAR_ERRORS = 'CLEAR_ERRORS';
+
+export const SET_MESSAGE = 'SET_MESSAGE';
+export const SET_UNLOAD_MESSAGE = 'SET_UNLOAD_MESSAGE';
+
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const CLEAR_USERS = 'CLEAR_USERS';
+
+//loading reducer
+export const SET_LOADING_TRUE = 'SET_LOADING_TRUE';
+export const SET_LOADING_FALSE = 'SET_LOADING_FALSE';
+
+//campaign reducer
+export const SET_ACTIVE_CAMPAIGNS = 'SET_ACTIVE_CAMPAIGNS';
+export const SET_DRAFT_CAMPAIGNS = 'SET_DRAFT_CAMPAIGNS';
+export const CLEAR_CAMPAIGNS = 'CLEAR_CAMPAIGNS';
+
+//subscriber reducer
+export const GET_SUBSCRIBERS_LISTS = 'GET_SUBSCRIBERS_LISTS';
+export const CLEAR_SUBSCRIBERS_LISTS = 'CLEAR_SUBSCRIBERS_LISTS';
