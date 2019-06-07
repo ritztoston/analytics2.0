@@ -62,7 +62,6 @@ const SubscribersArchintelTables = props => {
                     <Typography color="primary">{n.account}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.sched}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.status}</Typography>
-                    <Typography className={classes.subtitles} variant="subtitle2">123 subscribers</Typography>
                 </TableCell>
                 <TableCell align="right">
                     <Tooltip title="Quick Add" placement="top">
@@ -83,7 +82,6 @@ const SubscribersArchintelTables = props => {
                     <Typography color="primary">{n.account}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.sched}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.status}</Typography>
-                    <Typography className={classes.subtitles} variant="subtitle2">123 subscribers</Typography>
                 </TableCell>
                 <TableCell align="right">
                     <Tooltip title="Quick Add" placement="top">

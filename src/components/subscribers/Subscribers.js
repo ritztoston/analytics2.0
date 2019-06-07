@@ -20,7 +20,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {getSubscribersList} from "../../actions/subscriberActions";
+import {addSubscribers, getSubscribersList} from "../../actions/subscriberActions";
 import connect from "react-redux/es/connect/connect";
 import isEmpty from "../../validations/isEmpty";
 import Button from "@material-ui/core/Button";
@@ -31,6 +31,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import Avatar from "@material-ui/core/Avatar";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import AddIcon from '@material-ui/icons/Add';
+import {withSnackbar} from "notistack";
 
 const styles = theme => ({
     paper: {
@@ -100,6 +101,9 @@ class Subscribers extends Component {
             subId: 0,
             subName: '',
             subscribersText: '',
+            shorten: '',
+            submitted: false,
+            subscribersTextArray: '',
         };
     }
 
@@ -107,11 +111,11 @@ class Subscribers extends Component {
         e.stopPropagation();
 
         this.props.getSubscribersList(shorten);
-        this.setState({account, openDialog: true});
+        this.setState({account, openDialog: true, shorten, submitted: false});
     };
 
     onCloseDialog = () => {
-        this.setState({openDialog: false, subId: 0, subName: '', subscribersText: ''})
+        this.setState({openDialog: false, subId: 0, subName: '', subscribersText: '', account: '', shorten: '', submitted: false, subscribersTextArray: ''})
     };
 
     onChangeSearchText = e => {
@@ -130,9 +134,38 @@ class Subscribers extends Component {
         this.setState({subscribersText: e.target.value});
     };
 
+    async addSubscribers(shorten, emails, subId) {
+        await this.props.addSubscribers(shorten, emails, subId);
+        this.setState({submitted: true, subscribersTextArray: emails});
+    };
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        const {submitted, subscribersTextArray} = prevState;
+        const successMessage = 'Successfully added subscriber/s.';
+        const errorMessage = 'Email address/es already exist in the list.';
+
+        if(submitted) {
+            if (!isEmpty(nextProps.errors)) {
+                if (nextProps.errors.toString() === subscribersTextArray.toString())
+                    nextProps.enqueueSnackbar(errorMessage, {variant: 'error'});
+                else {
+                    nextProps.enqueueSnackbar(successMessage, {variant: 'success'});
+                    nextProps.enqueueSnackbar(errorMessage, {variant: 'error'});
+                }
+            } else {
+                nextProps.enqueueSnackbar(successMessage, {variant: 'success'});
+                return {submitted: false, openDialog: false};
+            }
+
+            return {submitted: false};
+        }
+
+        return null;
+    }
+
     render() {
-        const {classes, subscribers, loading} = this.props;
-        const {searchText, account, openDialog, subName, subscribersText} = this.state;
+        const {classes, subscribers, loading, errors} = this.props;
+        const {searchText, account, openDialog, subName, subscribersText, shorten, subId} = this.state;
         const subsTextArray = subscribersText.split(/\n/).filter(n => !isEmpty(n));
 
         const listLoading = (<React.Fragment>
@@ -143,15 +176,25 @@ class Subscribers extends Component {
                 <ListItemText primary="Loading list..."/>
             </ListItem>
         </React.Fragment>);
+        const addingLoading = (<React.Fragment>
+            <ListItem className={classes.listItem}>
+                <CircularProgress/>
+            </ListItem>
+            <ListItem className={classes.listItem}>
+                <ListItemText primary="Adding subscriber/s..."/>
+            </ListItem>
+        </React.Fragment>);
 
         const dialog = (<Dialog open={openDialog} onClose={this.onCloseDialog} aria-labelledby="simple-dialog-title">
-            <DialogTitle id="simple-dialog-title">{!isEmpty(subName) ? `Import email address to ${subName} list` : `Select ${account}'s list`}</DialogTitle>
+            <DialogTitle id="simple-dialog-title">{isEmpty(errors) ? (!isEmpty(subName) ? `Import email address to ${subName} list` : `Select ${account}'s list`) : `Failed to import to ${subName}`}</DialogTitle>
             {!isEmpty(subName) ? (<React.Fragment>
                 <DialogContent>
-                    <DialogContentText>
+                    {isEmpty(errors) ? <DialogContentText>
                         To subscribe to this list, please enter the email addresses to import, one per line, in the text field below.
-                    </DialogContentText>
-                    <TextField
+                    </DialogContentText> : <DialogContentText>
+                        The following email address/es already exist in the list or had an invalid email syntax:
+                    </DialogContentText>}
+                    {isEmpty(errors) ? (!loading.buffer ? <TextField
                         id="outlined-multiline-flexible"
                         label="Email Addresses"
                         multiline
@@ -161,15 +204,21 @@ class Subscribers extends Component {
                         variant="outlined"
                         fullWidth
                         onChange={this.onChangeSubscribersText}
-                    />
+                    /> : addingLoading) : errors.map(n => <ListItem>
+                        {n}
+                    </ListItem>)}
                 </DialogContent>
                 <DialogActions>
-                    <Button color="primary" onClick={this.onCloseDialog}>
-                        Cancel
-                    </Button>
-                    <Button color="primary" disabled={isEmpty(subsTextArray)}>
-                        Subscribe
-                    </Button>
+                    {isEmpty(errors) ? (<React.Fragment>
+                        <Button color="primary" onClick={this.onCloseDialog}>
+                            Cancel
+                        </Button>
+                        <Button color="primary" disabled={loading.buffer || isEmpty(subsTextArray)} onClick={() => this.addSubscribers(shorten, subsTextArray, subId)}>
+                            Subscribe
+                        </Button>
+                    </React.Fragment>) : <Button color="primary" onClick={this.onCloseDialog}>
+                        Close
+                    </Button>}
                 </DialogActions>
             </React.Fragment>) : (<List alignItems="center">
                 {!isEmpty(subscribers.subscribersList.results) && !loading.buffer ? (
@@ -227,7 +276,7 @@ class Subscribers extends Component {
                             </div>
                         </Paper>
                     </Grid>
-                    <Grid item xs={12} sm={7}>
+                    <Grid item xs={12} sm={4}>
                         <Typography className={classes.titles} variant={'subtitle1'}>
                             Traditional List
                         </Typography>
@@ -237,7 +286,25 @@ class Subscribers extends Component {
                         </Typography>
                         <SubscribersArchintelTables quickAdd={this.quickAdd} searchText={searchText}/>
                     </Grid>
-                    <Grid item xs={12} sm={5}>
+                    <Grid item xs={12} sm={4}>
+                        <Typography className={classes.titles} variant={'subtitle1'}>
+                            Lorem ipsum dolor sit amet
+                        </Typography>
+                        <Paper className={classes.paper}>
+                            <Typography>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam assumenda autem commodi consectetur consequatur consequuntur cumque dolore earum error esse est exercitationem explicabo fuga in incidunt inventore laborum laudantium, magnam maiores minima mollitia necessitatibus nemo nostrum officiis porro praesentium provident quas quasi quidem rem rerum sed sint suscipit ut, vel veritatis vero! Amet, aspernatur corporis debitis dolor enim error est explicabo fugiat impedit in inventore laboriosam nam perferendis quae saepe sapiente similique! Dolores fuga laudantium nobis quasi ratione sunt tempore veritatis vero. Ad adipisci aperiam assumenda aut blanditiis delectus deleniti deserunt dolore dolorum ea enim eos est excepturi exercitationem fugit id iste magnam, maxime minima molestiae natus necessitatibus nisi nobis nulla obcaecati odit officia porro provident, quam quia quidem quod rem reprehenderit tempora ullam veniam voluptatum. Dolorem in perspiciatis ratione! A aliquam commodi consectetur cumque, cupiditate dicta dolores, eius eum, fugit incidunt labore laborum nemo neque nihil nostrum officia officiis optio perferendis perspiciatis provident quia quibusdam quis quisquam quos rem saepe sed similique temporibus tenetur totam ut vel veritatis voluptatum! Consectetur magnam omnis ut. Aliquid consequuntur cupiditate deserunt excepturi expedita facere ipsum mollitia non numquam tempora. Eum facilis hic itaque mollitia necessitatibus odio, quia repellat sequi voluptatem. Aperiam dicta, nam.
+                            </Typography>
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <Typography className={classes.titles} variant={'subtitle1'}>
+                            Lorem ipsum dolor sit amet
+                        </Typography>
+                        <Paper className={classes.paper}>
+                            <Typography>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam assumenda autem commodi consectetur consequatur consequuntur cumque dolore earum error esse est exercitationem explicabo fuga in incidunt inventore laborum laudantium, magnam maiores minima mollitia necessitatibus nemo nostrum officiis porro praesentium provident quas quasi quidem rem rerum sed sint suscipit ut, vel veritatis vero! Amet, aspernatur corporis debitis dolor enim error est explicabo fugiat impedit in inventore laboriosam nam perferendis quae saepe sapiente similique! Dolores fuga laudantium nobis quasi ratione sunt tempore veritatis vero. Ad adipisci aperiam assumenda aut blanditiis delectus deleniti deserunt dolore dolorum ea enim eos est excepturi exercitationem fugit id iste magnam, maxime minima molestiae natus necessitatibus nisi nobis nulla obcaecati odit officia porro provident, quam quia quidem quod rem reprehenderit tempora ullam veniam voluptatum. Dolorem in perspiciatis ratione! A aliquam commodi consectetur cumque, cupiditate dicta dolores, eius eum, fugit incidunt labore laborum nemo neque nihil nostrum officia officiis optio perferendis perspiciatis provident quia quibusdam quis quisquam quos rem saepe sed similique temporibus tenetur totam ut vel veritatis voluptatum! Consectetur magnam omnis ut. Aliquid consequuntur cupiditate deserunt excepturi expedita facere ipsum mollitia non numquam tempora. Eum facilis hic itaque mollitia necessitatibus odio, quia repellat sequi voluptatem. Aperiam dicta, nam.
+                            </Typography>
+                        </Paper>
                         <Typography className={classes.titles} variant={'subtitle1'}>
                             Lorem ipsum dolor sit amet
                         </Typography>
@@ -256,12 +323,15 @@ class Subscribers extends Component {
 Subscribers.propTypes = {
     classes: PropTypes.object.isRequired,
     loading: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired,
     getSubscribersList: PropTypes.func.isRequired,
+    addSubscribers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
     loading: state.loading,
     subscribers: state.subscribers,
+    errors: state.errors,
 });
 
-export default connect(mapStateToProps, {getSubscribersList})(withStyles(styles)(Subscribers));
+export default connect(mapStateToProps, {getSubscribersList, addSubscribers})(withStyles(styles)(withSnackbar(Subscribers)));

@@ -5,7 +5,9 @@ import PropTypes from "prop-types";
 import {Helmet} from "react-helmet";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import AccountTables from "../tables/AccountTables";
+import AccountTablesFor6 from "../tables/AccountTablesFor6";
+import AccountTablesFor7 from "../tables/AccountTablesFor7";
+import AccountTablesForTrad from "../tables/AccountTablesForTrad";
 import {encode} from "../../utils/SetBase64";
 import InputBase from "@material-ui/core/InputBase";
 import {fade} from "@material-ui/core/styles";
@@ -61,6 +63,9 @@ const styles = theme => ({
         margin: theme.spacing(1.5),
         opacity: 0,
     },
+    titles: {
+        margin: theme.spacing(2, 2, 2, 1),
+    },
 });
 
 class Campaigns extends Component {
@@ -106,7 +111,7 @@ class Campaigns extends Component {
                             Campaigns
                         </Typography>
                         <Typography variant={'subtitle2'}>
-                            List of Active ArchIntel Accounts
+                            List of accounts
                         </Typography>
                     </Grid>
                     <Grid item xs={6} style={{textAlign: 'right'}}>
@@ -132,8 +137,23 @@ class Campaigns extends Component {
                             </div>
                         </Paper>
                     </Grid>
-                    <Grid item xs={12}>
-                        <AccountTables onClick={this.onClick} searchText={searchText}/>
+                    <Grid item xs={12} lg={4}>
+                        <Typography className={classes.titles} variant={'subtitle1'}>
+                            Briefing for 6:00AM
+                        </Typography>
+                        <AccountTablesFor6 onClick={this.onClick} searchText={searchText}/>
+                    </Grid>
+                    <Grid item xs={12} lg={4}>
+                        <Typography className={classes.titles} variant={'subtitle1'}>
+                            Briefing for 7:00AM
+                        </Typography>
+                        <AccountTablesFor7 onClick={this.onClick} searchText={searchText}/>
+                    </Grid>
+                    <Grid item xs={12} lg={4}>
+                        <Typography className={classes.titles} variant={'subtitle1'}>
+                            Traditional List
+                        </Typography>
+                        <AccountTablesForTrad onClick={this.onClick} searchText={searchText}/>
                     </Grid>
                 </Grid>
             </React.Fragment>

@@ -1,10 +1,11 @@
 import axios from 'axios';
 import {setLoadingFalse, setLoadingTrue} from "./loadingActions";
-import {setErrors} from "./errorActions";
+import {clearErrors, setErrors} from "./errorActions";
 import {CLEAR_SUBSCRIBERS_LISTS, GET_SUBSCRIBERS_LISTS} from "./types";
 
 export const getSubscribersList = shorten => dispatch => {
     dispatch(setLoadingTrue());
+    dispatch(clearErrors());
     dispatch(clearSubscribersList());
 
     axios.get(`http://www.analyticsapi.salesrobot.com/${shorten}/subscribers-lists/`)
@@ -16,6 +17,18 @@ export const getSubscribersList = shorten => dispatch => {
             dispatch(setErrors(err));
             dispatch(setLoadingFalse());
         })
+};
+
+export const addSubscribers = (shorten, emails, subId) => async dispatch => {
+    await dispatch(setLoadingTrue());
+    await dispatch(clearErrors());
+    try {
+        await axios.put(`http://www.analyticsapi.salesrobot.com/${shorten}/subscribers/add/${subId}/`, emails);
+        await dispatch(setLoadingFalse());
+    } catch (err) {
+        await dispatch(setErrors(err.response.data));
+        await dispatch(setLoadingFalse());
+    }
 };
 
 export const setSubscribersList = res => {

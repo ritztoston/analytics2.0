@@ -41,17 +41,12 @@ function createData(account, shorten, teamLead, sched, time, status) {
 }
 
 const data = [
-    createData('AECOM', 'aecom', 'Gigi Melecio', 'Monday - Friday','6:00AM EST', 'Active'),
-    createData('Leidos', 'leidos', 'Jhoanna Valdez', 'Monday - Friday','6:00AM EST', 'Active'),
-    createData('SOS International', 'sosi', 'Gigi Melecio', 'Monday - Friday','6:00AM EST', 'Active'),
-    createData('Iridium', 'iridium', 'Gigi Melecio', 'Monday - Friday','6:00AM EST', 'Internal Testing'),
-    createData('Battelle', 'battelle', 'Jhoanna Valdez', 'Monday - Friday','7:00AM EST', 'Internal Testing'),
     createData('Perspecta', 'perspecta', 'Ray Santos', 'Monday - Friday','7:00AM EST', 'Active'),
     createData('American Systems', 'americansys', 'Marc Mondala', 'Monday - Friday','7:00AM EST', 'Active'),
-    createData('CACI', 'caci', 'Gigi Melecio', 'Monday - Friday','-:--AM EST', 'Active'),
+    createData('CACI', 'caci', 'Gigi Melecio', 'Monday - Friday','7:00AM EST', 'Active'),
 ];
 
-const AccountTables = props => {
+const AccountTablesFor7 = props => {
     const {classes, searchText} = props;
 
     const content1 = (data.map(n => {
@@ -104,8 +99,8 @@ const AccountTables = props => {
     );
 };
 
-AccountTables.propTypes = {
+AccountTablesFor7.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AccountTables);
+export default withStyles(styles)(AccountTablesFor7);
