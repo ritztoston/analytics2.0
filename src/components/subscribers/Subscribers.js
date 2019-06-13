@@ -32,6 +32,7 @@ import Avatar from "@material-ui/core/Avatar";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import AddIcon from '@material-ui/icons/Add';
 import {withSnackbar} from "notistack";
+import {encode} from "../../utils/SetBase64";
 
 const styles = theme => ({
     paper: {
@@ -139,10 +140,19 @@ class Subscribers extends Component {
         this.setState({submitted: true, subscribersTextArray: emails});
     };
 
+    onClick = (shorten, account) => {
+        const encodedShorten = encode(shorten);
+        const encodedAccount = encode(account);
+        const encodedAll = `${encodedShorten}-${encodedAccount}`;
+        const encoded = encode(encodedAll);
+
+        this.props.history.push(`${this.props.location.pathname}/${encoded}`);
+    };
+
     static getDerivedStateFromProps(nextProps, prevState) {
-        const {submitted, subscribersTextArray} = prevState;
-        const successMessage = 'Successfully added subscriber/s.';
-        const errorMessage = 'Email address/es already exist in the list.';
+        const {submitted, subscribersTextArray, subName} = prevState;
+        const successMessage = `Successfully added subscriber/s to ${subName}.`;
+        const errorMessage = `Email address/es already exist in ${subName}.`;
 
         if(submitted) {
             if (!isEmpty(nextProps.errors)) {
@@ -154,7 +164,7 @@ class Subscribers extends Component {
                 }
             } else {
                 nextProps.enqueueSnackbar(successMessage, {variant: 'success'});
-                return {submitted: false, openDialog: false};
+                return {submitted: false, openDialog: false, subId: 0, subName: '', subscribersText: '', account: '', shorten: '', subscribersTextArray: ''};
             }
 
             return {submitted: false};
@@ -186,7 +196,7 @@ class Subscribers extends Component {
         </React.Fragment>);
 
         const dialog = (<Dialog open={openDialog} onClose={this.onCloseDialog} aria-labelledby="simple-dialog-title">
-            <DialogTitle id="simple-dialog-title">{isEmpty(errors) ? (!isEmpty(subName) ? `Import email address to ${subName} list` : `Select ${account}'s list`) : `Failed to import to ${subName}`}</DialogTitle>
+            <DialogTitle id="simple-dialog-title">{isEmpty(errors) ? (!isEmpty(subName) ? `Import email address to ${subName}` : `Select ${account}'s list`) : `Failed to import to ${subName}`}</DialogTitle>
             {!isEmpty(subName) ? (<React.Fragment>
                 <DialogContent>
                     {isEmpty(errors) ? <DialogContentText>
@@ -221,8 +231,8 @@ class Subscribers extends Component {
                     </Button>}
                 </DialogActions>
             </React.Fragment>) : (<List alignItems="center">
-                {!isEmpty(subscribers.subscribersList.results) && !loading.buffer ? (
-                    subscribers.subscribersList.results.map(n => {
+                {!isEmpty(subscribers.subscribersList) && !loading.buffer ? (
+                    subscribers.subscribersList.map(n => {
                         return (
                             <ListItem button onClick={() => this.onClickSubscriberList(n.id, n.name)}>
                                 <ListItemAvatar>
@@ -276,17 +286,17 @@ class Subscribers extends Component {
                             </div>
                         </Paper>
                     </Grid>
-                    <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} sm={6} md={6} lg={4}>
                         <Typography className={classes.titles} variant={'subtitle1'}>
                             Traditional List
                         </Typography>
-                        <SubscribersTradTables quickAdd={this.quickAdd} searchText={searchText}/>
+                        <SubscribersTradTables onClick={this.onClick} quickAdd={this.quickAdd} searchText={searchText}/>
                         <Typography className={classes.titles} variant={'subtitle1'}>
                             ArchIntel Account List
                         </Typography>
-                        <SubscribersArchintelTables quickAdd={this.quickAdd} searchText={searchText}/>
+                        <SubscribersArchintelTables onClick={this.onClick} quickAdd={this.quickAdd} searchText={searchText}/>
                     </Grid>
-                    <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} sm={6} md={6} lg={4}>
                         <Typography className={classes.titles} variant={'subtitle1'}>
                             Lorem ipsum dolor sit amet
                         </Typography>
@@ -296,7 +306,7 @@ class Subscribers extends Component {
                             </Typography>
                         </Paper>
                     </Grid>
-                    <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} sm={6} md={6} lg={4}>
                         <Typography className={classes.titles} variant={'subtitle1'}>
                             Lorem ipsum dolor sit amet
                         </Typography>

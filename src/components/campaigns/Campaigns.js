@@ -16,6 +16,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import clsx from "clsx";
 import Paper from "@material-ui/core/Paper";
+import AccountTablesFor8 from "../tables/AccountTablesFor8";
 
 const styles = theme => ({
     search: {
@@ -85,7 +86,7 @@ class Campaigns extends Component {
         const encodedAll = `${encodedShorten}-${encodedAccount}-${encodedSched}-${encodedTime}-${encodedStatus}`;
         const encoded = encode(encodedAll);
 
-        this.props.history.push(`campaigns/${encoded}?tab=active&page=1`);
+        this.props.history.push(`${this.props.location.pathname}/${encoded}?tab=active&page=1`);
     };
 
     onChangeSearchText = e => {
@@ -105,7 +106,7 @@ class Campaigns extends Component {
                 <Helmet defer={false}>
                     <title>Campaigns | SalesRobot3.0</title>
                 </Helmet>
-                <Grid container spacing={3} alignItems="center">
+                <Grid container spacing={3}>
                     <Grid item xs={6}>
                         <Typography variant={'h6'}>
                             Campaigns
@@ -137,19 +138,23 @@ class Campaigns extends Component {
                             </div>
                         </Paper>
                     </Grid>
-                    <Grid item xs={12} lg={4}>
+                    <Grid item xs={12} md={6} lg={4}>
                         <Typography className={classes.titles} variant={'subtitle1'}>
                             Briefing for 6:00AM
                         </Typography>
                         <AccountTablesFor6 onClick={this.onClick} searchText={searchText}/>
+                        <Typography className={classes.titles} variant={'subtitle1'}>
+                            Briefing for 8:00AM
+                        </Typography>
+                        <AccountTablesFor8 onClick={this.onClick} searchText={searchText}/>
                     </Grid>
-                    <Grid item xs={12} lg={4}>
+                    <Grid item xs={12} md={6} lg={4}>
                         <Typography className={classes.titles} variant={'subtitle1'}>
                             Briefing for 7:00AM
                         </Typography>
                         <AccountTablesFor7 onClick={this.onClick} searchText={searchText}/>
                     </Grid>
-                    <Grid item xs={12} lg={4}>
+                    <Grid item xs={12} md={6} lg={4}>
                         <Typography className={classes.titles} variant={'subtitle1'}>
                             Traditional List
                         </Typography>

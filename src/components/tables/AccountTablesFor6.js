@@ -44,6 +44,7 @@ const data = [
     createData('AECOM', 'aecom', 'Gigi Melecio', 'Monday - Friday','6:00AM EST', 'Active'),
     createData('Leidos', 'leidos', 'Jhoanna Valdez', 'Monday - Friday','6:00AM EST', 'Active'),
     createData('SOS International', 'sosi', 'Gigi Melecio', 'Monday - Friday','6:00AM EST', 'Active'),
+    createData('Iridium', 'iridium', 'Gigi Melecio', 'Monday - Friday','6:00AM EST', 'Internal Testing'),
 ];
 
 const AccountTablesFor6 = props => {

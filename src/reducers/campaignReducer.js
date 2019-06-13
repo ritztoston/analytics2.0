@@ -1,4 +1,10 @@
-import {CLEAR_CAMPAIGNS, SET_ACTIVE_CAMPAIGNS, SET_DRAFT_CAMPAIGNS} from "../actions/types";
+import {
+    CLEAR_CAMPAIGNS, GET_INDEX_DATA, GET_RSS_DATA,
+    GET_RSS_FEED_TEMPLATE,
+    GET_TEMPLATE,
+    SET_ACTIVE_CAMPAIGNS,
+    SET_DRAFT_CAMPAIGNS
+} from "../actions/types";
 
 const initialState = {
     active: {
@@ -12,6 +18,12 @@ const initialState = {
         next: null,
         previous: null,
         results: [],
+    },
+    data: {
+        template: [],
+        feedTemplate: [],
+        rss: [],
+        index: [],
     },
 };
 
@@ -27,21 +39,40 @@ export default function(state = initialState, action){
                 ...state,
                 draft: action.payload,
             };
-        case CLEAR_CAMPAIGNS:
+        case GET_TEMPLATE:
             return {
-                active: {
-                    count: 0,
-                    next: null,
-                    previous: null,
-                    results: [],
-                },
-                draft: {
-                    count: 0,
-                    next: null,
-                    previous: null,
-                    results: [],
-                },
+                ...state,
+                data: {
+                    ...state.data,
+                    template: [...action.payload]
+                }
             };
+        case GET_RSS_FEED_TEMPLATE:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    feedTemplate: [...action.payload]
+                }
+            };
+        case GET_INDEX_DATA:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    index: [...action.payload]
+                }
+            };
+        case GET_RSS_DATA:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    rss: [...action.payload]
+                }
+            };
+        case CLEAR_CAMPAIGNS:
+            return state;
         default:
             return state;
     }

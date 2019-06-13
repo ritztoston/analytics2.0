@@ -1,7 +1,8 @@
-import {SET_LOADING_FALSE, SET_LOADING_TRUE} from "../actions/types";
+import {SET_LOADING_FALSE, SET_LOADING_TRUE, SET_LOADING_TRUE_W_MESSAGE} from "../actions/types";
 
 const initialState = {
     buffer: false,
+    message: '',
 };
 
 export default function(state = initialState, action){
@@ -10,9 +11,15 @@ export default function(state = initialState, action){
             return {
                 buffer: true
             };
+        case SET_LOADING_TRUE_W_MESSAGE:
+            return {
+                buffer: true,
+                message: action.payload,
+            };
         case SET_LOADING_FALSE:
             return {
-                buffer: false
+                buffer: false,
+                message: '',
             };
         default:
             return state;

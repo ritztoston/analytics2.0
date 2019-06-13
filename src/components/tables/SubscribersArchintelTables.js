@@ -8,6 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from "@material-ui/core/Typography";
 import isEmpty from "../../validations/isEmpty";
+import data from "../../utils/archintelData";
 import Button from "@material-ui/core/Button";
 import PersonAdd from '@material-ui/icons/PersonAdd';
 import Tooltip from "@material-ui/core/Tooltip";
@@ -40,27 +41,12 @@ const styles = theme => ({
     },
 });
 
-let id = 0;
-function createData(account, shorten, status) {
-    id += 1;
-    return {id, account, shorten, status};
-}
-
-const data = [
-    createData('AECOM', 'aecom', 'Active'),
-    createData('Leidos', 'leidos', 'Active'),
-    createData('SOS International', 'sosi', 'Active'),
-    createData('Perspecta', 'perspecta', 'Active'),
-    createData('American Systems', 'americansys', 'Active'),
-    createData('CACI', 'caci', 'Active'),
-];
-
 const SubscribersArchintelTables = props => {
     const {classes, searchText} = props;
 
     const content1 = (data.map(n => {
         return (
-            <TableRow className={classes.tableRow} key={n.id} hover>
+            <TableRow className={classes.tableRow} key={n.id} hover onClick={() => props.onClick(n.shorten, n.account)}>
                 <TableCell component="th" scope="row">
                     <Typography color="primary">{n.account}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.sched}</Typography>

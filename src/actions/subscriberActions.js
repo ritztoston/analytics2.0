@@ -1,7 +1,12 @@
 import axios from 'axios';
 import {setLoadingFalse, setLoadingTrue} from "./loadingActions";
 import {clearErrors, setErrors} from "./errorActions";
-import {CLEAR_SUBSCRIBERS_LISTS, GET_SUBSCRIBERS_LISTS} from "./types";
+import {
+    CLEAR_SUBSCRIBER_MEMBERS,
+    CLEAR_SUBSCRIBERS_LISTS,
+    GET_SUBSCRIBER_MEMBERS,
+    GET_SUBSCRIBERS_LISTS
+} from "./types";
 
 export const getSubscribersList = shorten => dispatch => {
     dispatch(setLoadingTrue());
@@ -31,10 +36,39 @@ export const addSubscribers = (shorten, emails, subId) => async dispatch => {
     }
 };
 
+export const getSubscriberMembers = (id, shorten, pageSize, page) => dispatch => {
+    dispatch(setLoadingTrue());
+    dispatch(clearErrors());
+    dispatch(clearSubscriberMembers());
+
+    axios.get(`http://www.analyticsapi.salesrobot.com/${shorten}/subscribers-members/${id}/?page=${page}&page_size=${pageSize}`)
+        .then(res => {
+            dispatch(setSubscriberMembers(res));
+            dispatch(setLoadingFalse());
+        })
+        .catch(err => {
+            dispatch(setErrors(err));
+            dispatch(setLoadingFalse());
+        })
+};
+
+export const setSubscriberMembers = res => {
+    return {
+        type: GET_SUBSCRIBER_MEMBERS,
+        payload: res.data
+    }
+};
+
 export const setSubscribersList = res => {
     return {
         type: GET_SUBSCRIBERS_LISTS,
         payload: res.data
+    }
+};
+
+export const clearSubscriberMembers = () => {
+    return {
+        type: CLEAR_SUBSCRIBER_MEMBERS
     }
 };
 

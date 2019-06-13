@@ -199,6 +199,14 @@ const styles = theme => ({
     contentLoading: {
         paddingTop: theme.spacing(3),
     },
+    addIcon: {
+        marginRight: 4,
+    },
+    fab: {
+        boxShadow: 'none !important',
+        marginRight: theme.spacing(.5),
+        height: '28px !important',
+    },
 });
 
 class Navigation extends Component {
@@ -253,46 +261,86 @@ class Navigation extends Component {
         const {open, anchorEl, index} = this.state;
 
         const apps = (<div>
-                <IconButton
-                    aria-owns={open ? 'menu-appbar' : undefined}
-                    aria-haspopup="true"
-                    color="inherit"
-                    onClick={this.handleMenuOpen}
-                >
-                    <AccountCircle style={{fontSize: 30}}/>
-                </IconButton>
-                <Menu
-                    id="menu-appbar"
-                    className={classes.menu}
-                    anchorEl={anchorEl}
-                    getContentAnchorEl={null}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'right',
-                    }}
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    open={anchorEl}
-                    onClose={this.handleMenuClose}
-                >
-                    <MenuItem>Profile</MenuItem>
-                    <Divider/>
-                    <MenuItem onClick={this.props.handleChangeTheme}>
-                        Dark Mode&nbsp;&nbsp;
-                        <IOSSwitch
-                            checked={uiTheme === 'dark'}
-                            onChange={this.props.handleChangeTheme}
-                        />
-                    </MenuItem>
-                    <MenuItem onClick={this.props.logoutUser}>Logout</MenuItem>
-                </Menu>
-            </div>);
+            {/*<Fab*/}
+                {/*variant="extended"*/}
+                {/*size="small"*/}
+                {/*color="primary"*/}
+                {/*aria-label="Add"*/}
+                {/*className={classes.fab}*/}
+                {/*aria-owns={open ? 'menu-appbar' : undefined}*/}
+                {/*aria-haspopup="true"*/}
+                {/*onClick={this.handleMenuOpen}*/}
+            {/*>*/}
+                {/*<PersonAdd className={classes.addIcon} style={{fontSize: 20}}/>*/}
+                {/*Quick Add*/}
+            {/*</Fab>*/}
+            {/*<Menu*/}
+                {/*id="menu-appbar"*/}
+                {/*className={classes.menu}*/}
+                {/*anchorEl={anchorEl}*/}
+                {/*getContentAnchorEl={null}*/}
+                {/*anchorOrigin={{*/}
+                    {/*vertical: 'bottom',*/}
+                    {/*horizontal: 'right',*/}
+                {/*}}*/}
+                {/*transformOrigin={{*/}
+                    {/*vertical: 'top',*/}
+                    {/*horizontal: 'right',*/}
+                {/*}}*/}
+                {/*open={anchorEl}*/}
+                {/*onClose={this.handleMenuClose}*/}
+            {/*>*/}
+                {/*<MenuItem>Profile</MenuItem>*/}
+                {/*<Divider/>*/}
+                {/*<MenuItem onClick={this.props.handleChangeTheme}>*/}
+                    {/*Dark Mode&nbsp;&nbsp;*/}
+                    {/*<IOSSwitch*/}
+                        {/*checked={uiTheme === 'dark'}*/}
+                        {/*onChange={this.props.handleChangeTheme}*/}
+                    {/*/>*/}
+                {/*</MenuItem>*/}
+                {/*<MenuItem onClick={this.props.logoutUser}>Logout</MenuItem>*/}
+            {/*</Menu>*/}
+            <IconButton
+                aria-owns={open ? 'menu-appbar' : undefined}
+                aria-haspopup="true"
+                color="inherit"
+                onClick={this.handleMenuOpen}
+            >
+                <AccountCircle style={{fontSize: 30}}/>
+            </IconButton>
+            <Menu
+                id="menu-appbar"
+                className={classes.menu}
+                anchorEl={anchorEl}
+                getContentAnchorEl={null}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                open={anchorEl}
+                onClose={this.handleMenuClose}
+            >
+                <MenuItem>Profile</MenuItem>
+                <Divider/>
+                <MenuItem onClick={this.props.handleChangeTheme}>
+                    Dark Mode&nbsp;&nbsp;
+                    <IOSSwitch
+                        checked={uiTheme === 'dark'}
+                        onChange={this.props.handleChangeTheme}
+                    />
+                </MenuItem>
+                <MenuItem onClick={this.props.logoutUser}>Logout</MenuItem>
+            </Menu>
+        </div>);
         const content = (<React.Fragment>
-                <div className={classes.toolbar}/>
-                {children}
-            </React.Fragment>);
+            <div className={classes.toolbar}/>
+            {children}
+        </React.Fragment>);
 
         return (
             <React.Fragment>

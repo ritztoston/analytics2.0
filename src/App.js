@@ -14,6 +14,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import CampaignDetails from "./components/campaigns/CampaignDetails";
 import Subscribers from "./components/subscribers/Subscribers";
 import {SnackbarProvider} from "notistack";
+import CampaignSoloDetails from "./components/campaigns/CampaignSoloDetails";
+import SubscribersDetails from "./components/subscribers/SubscribersDetails";
+import SubscriberMemberDetails from "./components/subscribers/SubscriberMemberDetails";
 
 const cookies = new Cookies();
 const uiTheme = cookies.get('srtres_theme');
@@ -78,7 +81,10 @@ class App extends Component {
                             <PrivateRoute exact path="/dashboard" component={Dashboard} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
                             <PrivateRoute exact path="/campaigns" component={Campaigns} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
                             <PrivateRoute exact path="/campaigns/:account" component={CampaignDetails} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
+                            <PrivateRoute exact path="/campaigns/:account/:id" component={CampaignSoloDetails} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
                             <PrivateRoute exact path="/subscribers" component={Subscribers} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
+                            <PrivateRoute exact path="/subscribers/:account" component={SubscribersDetails} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
+                            <PrivateRoute exact path="/subscribers/:account/:id" component={SubscriberMemberDetails} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
                             <Route component={NotFound} />
                         </Switch>
                     </Router>

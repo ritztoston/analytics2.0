@@ -100,7 +100,7 @@ const CampaignDataTables = props => {
                 return (
                     <TableRow key={n.id}>
                         <TableCell className={classes.tableCell} component="th" scope="row">
-                            <Typography className={classes.link} color="primary" component={Link} to={`${props.pathname}/${encodedId}`}>{n.subject}</Typography>
+                            <Typography className={classes.link} color="primary" component={Link} to={`${props.pathname}/${encodedId}?action=preview`}>{n.subject}</Typography>
                             <Typography className={classes.subtitles} variant="subtitle2">Sends on <Moment date={n.embargo} format="ddd, MMM D YYYY"/> at <Moment add={{hours: 4}} date={n.embargo} format="h:mm A" /></Typography>
                         </TableCell>
                         <TableCell align="right">
@@ -119,7 +119,7 @@ const CampaignDataTables = props => {
                                                     <ListItem className={classes.listItem} button>
                                                         <ListItemText primary="Edit" />
                                                     </ListItem>
-                                                    <ListItem className={classes.listItem} button>
+                                                    <ListItem className={classes.listItem} button component={Link} to={`${props.pathname}/${encodedId}?action=preview`}>
                                                         <ListItemText primary="Preview" />
                                                     </ListItem>
                                                 </List>
@@ -131,7 +131,7 @@ const CampaignDataTables = props => {
                                 <Button className={classes.button} variant="contained">
                                     Start
                                 </Button>
-                                <Button className={[classes.button, classes.downButton]} aria-describedby={id} variant="contained" onClick={props.handlePopperClick} on>
+                                <Button className={[classes.button, classes.downButton]} aria-describedby={id} variant="contained" onClick={props.handlePopperClick}>
                                     <KeyboardArrowDown/>
                                 </Button>
                                 <Popper id={id} open={anchorEl} anchorEl={anchorEl} transition placement="bottom-end">
@@ -145,7 +145,7 @@ const CampaignDataTables = props => {
                                                     <ListItem className={classes.listItem} button>
                                                         <ListItemText primary="Edit" />
                                                     </ListItem>
-                                                    <ListItem className={classes.listItem} button>
+                                                    <ListItem className={classes.listItem} button component={Link} to={`${props.pathname}/${encodedId}?action=preview`}>
                                                         <ListItemText primary="Preview" />
                                                     </ListItem>
                                                 </List>

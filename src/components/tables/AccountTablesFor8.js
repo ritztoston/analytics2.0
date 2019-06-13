@@ -8,9 +8,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from "@material-ui/core/Typography";
 import isEmpty from "../../validations/isEmpty";
-import Button from "@material-ui/core/Button";
-import PersonAdd from '@material-ui/icons/PersonAdd';
-import Tooltip from "@material-ui/core/Tooltip";
 
 const styles = theme => ({
     root: {
@@ -30,9 +27,6 @@ const styles = theme => ({
     tableRow: {
         cursor: 'pointer',
     },
-    addIcon: {
-        margin: 2,
-    },
     tableCell: {
         paddingTop: 30,
         paddingBottom: 30,
@@ -41,34 +35,29 @@ const styles = theme => ({
 });
 
 let id = 0;
-function createData(account, shorten, status) {
+function createData(account, shorten, teamLead, sched, time, status) {
     id += 1;
-    return {id, account, shorten, status};
+    return {id, account, shorten, teamLead, sched, time, status};
 }
 
 const data = [
-    createData('GovConWire', 'govconwire', 'Active'),
-    createData('ExecutiveBiz', 'executivebiz', 'Active'),
-    createData('GovConDaily', 'govcondaily', 'Active'),
+    createData('George Washington University', 'george', 'Marc Mondala', 'Friday Only','8:00AM EST', 'Active'),
 ];
 
-const SubscribersArchintelTables = props => {
+const AccountTablesFor7 = props => {
     const {classes, searchText} = props;
 
     const content1 = (data.map(n => {
         return (
-            <TableRow className={classes.tableRow} key={n.id} hover onClick={() => props.onClick(n.shorten, n.account)}>
+            <TableRow className={classes.tableRow} key={n.id} onClick={() => props.onClick(n.shorten, n.account, n.sched, n.time, n.status)} hover>
                 <TableCell component="th" scope="row">
                     <Typography color="primary">{n.account}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.sched}</Typography>
+                    <Typography className={classes.subtitles} variant="subtitle2">{n.time}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.status}</Typography>
                 </TableCell>
                 <TableCell align="right">
-                    <Tooltip title="Quick Add" placement="top">
-                        <Button variant="contained" color="primary" className={classes.button} onClick={props.quickAdd(n.account, n.shorten)}>
-                            <PersonAdd className={classes.addIcon} />
-                        </Button>
-                    </Tooltip>
+                    <Typography className={classes.subtitles} variant="subtitle2">{n.teamLead}</Typography>
                 </TableCell>
             </TableRow>
         );
@@ -77,22 +66,20 @@ const SubscribersArchintelTables = props => {
         return n.account.toLowerCase().includes(searchText);
     }).map(n => {
         return (
-            <TableRow className={classes.tableRow} key={n.id} hover>
+            <TableRow className={classes.tableRow} key={n.id} onClick={() => props.onClick(n.shorten, n.account, n.sched, n.time, n.status)} hover>
                 <TableCell component="th" scope="row">
                     <Typography color="primary">{n.account}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.sched}</Typography>
+                    <Typography className={classes.subtitles} variant="subtitle2">{n.time}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.status}</Typography>
                 </TableCell>
                 <TableCell align="right">
-                    <Tooltip title="Quick Add" placement="top">
-                        <Button variant="contained" color="primary" className={classes.button} onClick={props.quickAdd(n.account, n.shorten)}>
-                            <PersonAdd className={classes.addIcon} />
-                        </Button>
-                    </Tooltip>
+                    <Typography className={classes.subtitles} variant="subtitle2">{n.teamLead}</Typography>
                 </TableCell>
             </TableRow>
         );
     }));
+
     const noResult = (<TableRow>
         <TableCell className={classes.tableCell} component="th" scope="row" align="center">
             <Typography>- No result -</Typography>
@@ -110,8 +97,8 @@ const SubscribersArchintelTables = props => {
     );
 };
 
-SubscribersArchintelTables.propTypes = {
+AccountTablesFor7.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SubscribersArchintelTables);
+export default withStyles(styles)(AccountTablesFor7);
