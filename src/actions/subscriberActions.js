@@ -1,12 +1,14 @@
 import axios from 'axios';
-import {setLoadingFalse, setLoadingTrue} from "./loadingActions";
+import {setLoadingFalse, setLoadingTrue, setLoadingTwoFalse, setLoadingTwoTrue} from "./loadingActions";
 import {clearErrors, setErrors} from "./errorActions";
 import {
+    CLEAR_SUBSCRIBER_ALL_MEMBERS,
     CLEAR_SUBSCRIBER_MEMBERS,
-    CLEAR_SUBSCRIBERS_LISTS,
+    CLEAR_SUBSCRIBERS_LISTS, GET_SUBSCRIBER_ALL_MEMBERS,
     GET_SUBSCRIBER_MEMBERS,
     GET_SUBSCRIBERS_LISTS
 } from "./types";
+import {setDraftCampaign} from "./campaignActions";
 
 export const getSubscribersList = shorten => dispatch => {
     dispatch(setLoadingTrue());
@@ -52,9 +54,45 @@ export const getSubscriberMembers = (id, shorten, pageSize, page) => dispatch =>
         })
 };
 
+export const getAllSubscriberMembers = (id, shorten) => dispatch => {
+    dispatch(setLoadingTwoTrue());
+    dispatch(clearErrors());
+    dispatch(clearAllSubscriberMembers());
+
+    axios.get(`http://www.analyticsapi.salesrobot.com/${shorten}/subscribers-all-members/${id}/`)
+        .then(res => {
+            dispatch(setAllSubscriberMembers(res));
+            dispatch(setLoadingTwoFalse());
+        })
+        .catch(err => {
+            dispatch(setErrors(err));
+            dispatch(setLoadingTwoFalse());
+        })
+};
+
+export const getBlacklistSubscriber = (id, page, pageSize, stringIds, shorten) => async dispatch => {
+    dispatch(setLoadingTrue());
+    try {
+        await axios.put(`http://www.analyticsapi.salesrobot.com/${shorten}/subscribers/delete/${stringIds}/`);
+        const res = await axios.get(`http://www.analyticsapi.salesrobot.com/${shorten}/subscribers-members/${id}/?page=${page}&page_size=${pageSize}`);
+        dispatch(setSubscriberMembers(res));
+        dispatch(setLoadingFalse());
+    } catch (err) {
+        dispatch(setErrors(err));
+        dispatch(setLoadingFalse());
+    }
+};
+
 export const setSubscriberMembers = res => {
     return {
         type: GET_SUBSCRIBER_MEMBERS,
+        payload: res.data
+    }
+};
+
+export const setAllSubscriberMembers = res => {
+    return {
+        type: GET_SUBSCRIBER_ALL_MEMBERS,
         payload: res.data
     }
 };
@@ -69,6 +107,12 @@ export const setSubscribersList = res => {
 export const clearSubscriberMembers = () => {
     return {
         type: CLEAR_SUBSCRIBER_MEMBERS
+    }
+};
+
+export const clearAllSubscriberMembers = () => {
+    return {
+        type: CLEAR_SUBSCRIBER_ALL_MEMBERS
     }
 };
 

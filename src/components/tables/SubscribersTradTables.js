@@ -17,9 +17,6 @@ const styles = theme => ({
         display: 'flex',
         overflowX: 'hide',
     },
-    table: {
-        minWidth: 340,
-    },
     subtitles: {
         color: theme.palette.text.secondary,
     },
@@ -101,7 +98,7 @@ const SubscribersArchintelTables = props => {
 
     return (
         <Paper className={classes.root}>
-            <Table className={classes.table}>
+            <Table>
                 <TableBody>
                     {isEmpty(searchText) ? content1 : !isEmpty(content2) ? content2 : noResult}
                 </TableBody>

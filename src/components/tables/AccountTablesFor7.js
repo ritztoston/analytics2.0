@@ -14,9 +14,6 @@ const styles = theme => ({
         display: 'flex',
         overflowX: 'hide',
     },
-    table: {
-        minWidth: 340,
-    },
     subtitles: {
         color: theme.palette.text.secondary,
     },
@@ -42,7 +39,6 @@ function createData(account, shorten, teamLead, sched, time, status) {
 
 const data = [
     createData('Perspecta', 'perspecta', 'Ray Santos', 'Monday - Friday','7:00AM EST', 'Active'),
-    createData('American Systems', 'americansys', 'Marc Mondala', 'Monday - Friday','7:00AM EST', 'Active'),
     createData('CACI', 'caci', 'Gigi Melecio', 'Monday - Friday','7:00AM EST', 'Active'),
     createData('Premier', 'premier', 'Marc Mondala', 'Monday - Friday','7:00AM EST', 'Active'),
     createData('SAP Public Services', 'sap', 'Anna Mondala', 'Monday - Friday','7:00AM EST', 'Internal Testing'),
@@ -92,7 +88,7 @@ const AccountTablesFor7 = props => {
 
     return (
         <Paper className={classes.root}>
-            <Table className={classes.table}>
+            <Table>
                 <TableBody>
                     {isEmpty(searchText) ? content1 : !isEmpty(content2) ? content2 : noResult}
                 </TableBody>

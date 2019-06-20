@@ -11,14 +11,12 @@ import isEmpty from "../../validations/isEmpty";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableFooter from "@material-ui/core/TableFooter";
 import Moment from "react-moment";
+import Checkbox from "@material-ui/core/Checkbox";
 
 const styles = theme => ({
     root: {
         display: 'flex',
         overflowX: 'hide',
-    },
-    table: {
-        minWidth: 340,
     },
     subtitles: {
         color: theme.palette.text.secondary,
@@ -49,38 +47,64 @@ const styles = theme => ({
 
 
 const AccountTablesForTrad = props => {
-    const {classes, data, rowsPerPage, page} = props;
-
-    const noResult = (<TableRow>
-        <TableCell className={classes.tableCell} component="th" scope="row" align="center">
-            <Typography>- No result -</Typography>
-        </TableCell>
-    </TableRow>);
-
+    const {classes, data, rowsPerPage, page, searchText, allData} = props;
     return (
         <Paper className={classes.root}>
-            <Table className={classes.table}>
+            <Table>
                 <TableBody>
-                    {!isEmpty(data.results) && data.results.map(n => {
+                    {isEmpty(searchText) ? !isEmpty(data.results) && data.results.map((n, index) => {
+                        const isItemSelected = props.isSelected(n.id);
+                        const labelId = `table-checkbox-${index}`;
+
                         return (
-                            <TableRow className={classes.tableRow} key={n.id} hover>
+                            <TableRow role="checkbox" tabIndex={-1} selected={isItemSelected} aria-checked={isItemSelected} className={classes.tableRow} key={n.id} hover>
+                                <TableCell padding="checkbox">
+                                    <Checkbox
+                                        checked={isItemSelected}
+                                        inputProps={{ 'aria-labelledby': labelId }}
+                                        onClick={() => props.handleCheckBox(n.id, n.email)}
+                                    />
+                                </TableCell>
                                 <TableCell component="th" scope="row">
                                     <Typography>{n.email}</Typography>
                                 </TableCell>
                                 <TableCell>
-                                    {n.confirmed === 1 ? (<Typography className={classes.typography}>Confirmed</Typography>) : (<Typography className={classes.typography} color="textSecondary">------</Typography>)}
-                                </TableCell>
-                                <TableCell>
-                                    {n.blacklisted === 1 ? (<Typography className={classes.typography}>Blacklisted</Typography>) : (<Typography className={classes.typography} color="textSecondary">------</Typography>)}
+                                    {n.blacklisted === 1 ? (<Typography color="secondary" className={classes.typography}>Blacklisted</Typography>) : n.confirmed === 1 ? (<Typography color="textSecondary" className={classes.typography}>Confirmed</Typography>) : (<Typography color="secondary" className={classes.typography}>Unconfirmed</Typography>)}
                                 </TableCell>
                                 <TableCell align="right">
-                                    <Typography variant="subtitle2"><Moment date={n.entered} format="ddd, MMM D YYYY h:mm A"/></Typography>
+                                    <Typography variant="subtitle2"><Moment subtract={{hours: 4}} date={n.entered} format="ddd, MMM D YYYY h:mm A"/></Typography>
+                                </TableCell>
+                            </TableRow>
+                        );
+                    }) : !isEmpty(allData) && allData.filter(n => {
+                        return n.email.toLowerCase().includes(searchText);
+                    }).map((n, index) => {
+                        const isItemSelected = props.isSelected(n.id);
+                        const labelId = `table-checkbox-${index}`;
+
+                        return (
+                            <TableRow className={classes.tableRow} key={n.id} hover>
+                                <TableCell padding="checkbox">
+                                    <Checkbox
+                                        checked={isItemSelected}
+                                        inputProps={{ 'aria-labelledby': labelId }}
+                                        onClick={() => props.handleCheckBox(n.id, n.email)}
+                                    />
+                                </TableCell>
+                                <TableCell component="th" scope="row">
+                                    <Typography>{n.email}</Typography>
+                                </TableCell>
+                                <TableCell>
+                                    {n.blacklisted === 1 ? (<Typography color="secondary" className={classes.typography}>Blacklisted</Typography>) : n.confirmed === 1 ? (<Typography color="textSecondary" className={classes.typography}>Confirmed</Typography>) : (<Typography color="secondary" className={classes.typography}>Unconfirmed</Typography>)}
+                                </TableCell>
+                                <TableCell align="right">
+                                    <Typography variant="subtitle2"><Moment subtract={{hours: 4}} date={n.entered} format="ddd, MMM D YYYY h:mm A"/></Typography>
                                 </TableCell>
                             </TableRow>
                         );
                     })}
                 </TableBody>
-                {!isEmpty(data.results) ? <TableFooter>
+                {!isEmpty(data.results) && isEmpty(searchText) ? <TableFooter>
                     <TableRow className={classes.tableRowPagination}>
                         <TablePagination
                             className={classes.tablePagination}

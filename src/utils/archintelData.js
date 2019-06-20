@@ -10,7 +10,6 @@ const data = [
     createData('Leidos', 'leidos', 'Active'),
     createData('SOS International', 'sosi', 'Active'),
     createData('Perspecta', 'perspecta', 'Active'),
-    createData('American Systems', 'americansys', 'Active'),
     createData('CACI', 'caci', 'Active'),
     createData('Premier', 'premier', 'Active'),
     createData('George Washington University', 'george', 'Active'),

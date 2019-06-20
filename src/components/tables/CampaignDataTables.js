@@ -30,9 +30,6 @@ const styles = theme => ({
         display: 'flex',
         overflowX: 'hide',
     },
-    table: {
-        minWidth: 340,
-    },
     subtitles: {
         color: theme.palette.text.secondary,
     },
@@ -93,7 +90,7 @@ const CampaignDataTables = props => {
     const {results, count} = valueTab === 0 ? props.data.active : valueTab === 1 ? props.data.draft : null;
     const id = anchorEl ? 'simple-popper' : null;
 
-    const content = (<Table className={classes.table}>
+    const content = (<Table>
         <TableBody>
             {!isEmpty(results) ? results.map(n => {
                 const encodedId = encode(n.id);
@@ -165,7 +162,7 @@ const CampaignDataTables = props => {
                         </TableCell>
                     </TableRow>
                 );
-            }) : <Table className={classes.table}>
+            }) : <Table>
                 <TableBody>
                     <TableRow>
                         <TableCell className={classes.tableCell} component="th" scope="row" align="center">
@@ -192,7 +189,7 @@ const CampaignDataTables = props => {
         </TableFooter> : null}
     </Table>);
 
-    const progress = (<Table className={classes.table}>
+    const progress = (<Table>
         <TableBody>
             <TableRow>
                 <TableCell className={classes.tableCell} component="th" scope="row" align="center">
