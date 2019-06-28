@@ -42,6 +42,7 @@ const data = [
     createData('CACI', 'caci', 'Gigi Melecio', 'Monday - Friday','7:00AM EST', 'Active'),
     createData('Premier', 'premier', 'Marc Mondala', 'Monday - Friday','7:00AM EST', 'Active'),
     createData('SAP Public Services', 'sap', 'Anna Mondala', 'Monday - Friday','7:00AM EST', 'Internal Testing'),
+    createData('KBR', 'kbr', 'Marc Mondala', 'Monday - Friday','7:00AM EST', 'Internal Testing'),
 ];
 
 const AccountTablesFor7 = props => {
