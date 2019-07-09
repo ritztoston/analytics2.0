@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import {decode} from "../../utils/SetBase64";
 import connect from "react-redux/es/connect/connect";
-import {getNewCampaignData, getPreviewCampaignData} from "../../actions/campaignActions";
+import {getMessageSend, getNewCampaignData, getPreviewCampaignData} from "../../actions/campaignActions";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import isEmpty from "../../validations/isEmpty";
 import currentDate from "../../utils/currentDate";
@@ -20,6 +20,9 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Fade from "@material-ui/core/Fade";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Dialog from "@material-ui/core/Dialog";
 
 const styles = theme => ({
     rssContent: {
@@ -66,6 +69,8 @@ class Dashboard extends Component {
             id: 0,
             encodedId: 0,
             anchorEl: null,
+            rowsPerPage: 5,
+            isOpenSendDialog: false,
         }
     }
 
@@ -74,13 +79,34 @@ class Dashboard extends Component {
 
         this.props.getNewCampaignData(shorten, id);
 
-        this.setState({anchorEl: null})
+        this.setState({anchorEl: null});
     };
 
     handlePopperClick = e => {
         const {anchorEl} = this.state;
 
         this.setState({anchorEl: anchorEl ? null : e.currentTarget});
+    };
+
+    openSendDialog = () => {
+        this.setState({isOpenSendDialog: true});
+    };
+
+    closeSendDialog = () => {
+        this.setState({isOpenSendDialog: false});
+    };
+
+    handleSendCampaign = () => {
+        const {shorten, id, rowsPerPage} = this.state;
+        const url = this.props.location.pathname.substring(0, this.props.location.pathname.lastIndexOf("/"));
+
+        this.props.getMessageSend(shorten, id, rowsPerPage);
+        this.setState({isOpenSendDialog: false});
+        this.props.history.push(`${url}?tab=active&page=1`);
+    };
+
+    refreshComponent = () => {
+        this.componentDidMount();
     };
 
     componentDidMount() {
@@ -134,10 +160,12 @@ class Dashboard extends Component {
                 rss.map(data => {
                     if(category.category === data.category) {
                         category.list_value += template1.replace("[TITLE]", data.title).replace("[URL]", data.url);
-                        category.details_value += template2.replace("[TITLE]", data.title).replace(/\[URL]/g, data.url).replace("[CONTENT]", data.content).replace("[IMAGE]", data.image).replace("[TAG]", data.tag).replace("[AUTHOR]", data.author).replace("[AUTHOR]", data.author).replace("[AUTHOR]", data.author).replace("[AUTHOR]", data.author).replace("[AUTHOR]", data.author);
+                        category.details_value += template2.replace("[TITLE]", data.title).replace(/\[URL]/g, data.url).replace("[CONTENT]", data.content).replace("[IMAGE]", data.image).replace("[TAG]", data.tag).replace("[CAPTION]", data.caption).replace("[AUTHOR]", data.author).replace("[AUTHOR]", data.author).replace("[AUTHOR]", data.author).replace("[AUTHOR]", data.author).replace("[AUTHOR]", data.author);
                     }
+
                     return null;
                 });
+
                 return null;
             });
         }
@@ -178,15 +206,38 @@ class Dashboard extends Component {
     }
 
     render() {
-        const {account, encodedId, anchorEl} = this.state;
+        const {account, encodedId, anchorEl, isOpenSendDialog} = this.state;
         const {classes, loading} = this.props;
         const anchorId = anchorEl ? 'simple-popper' : null;
+
+        const sendDialog = (
+            <Dialog
+                open={isOpenSendDialog}
+                onClose={this.closeSendDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                maxWidth={'xs'}
+            >
+                <DialogTitle id="alert-dialog-title">
+                    Are you sure you want to send {account}#{encodedId}?
+                </DialogTitle>
+                <DialogActions>
+                    <Button color="secondary" onClick={this.closeSendDialog}>
+                        Cancel
+                    </Button>
+                    <Button color="primary" onClick={this.handleSendCampaign} autoFocus>
+                        Send
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        );
 
         return (
             <React.Fragment>
                 <Helmet defer={false}>
                     <title>{account} | SalesRobot3.0</title>
                 </Helmet>
+                {sendDialog}
                 <Grid container spacing={3}>
                     <Grid item xs={6}>
                         <Typography variant={'h6'}>
@@ -198,8 +249,8 @@ class Dashboard extends Component {
                     </Grid>
                     <Grid item xs={6} style={{textAlign: 'right'}}>
                         {!loading.buffer && <Typography>
-                            <Button color="primary" className={classes.button} variant="contained">
-                                Edit
+                            <Button color="primary" className={classes.button} variant="contained" onClick={this.refreshComponent}>
+                                Refresh
                             </Button>
                             <Button color="primary" className={[classes.button, classes.downButton]} aria-describedby={anchorId} variant="contained" onClick={this.handlePopperClick}>
                                 <KeyboardArrowDown/>
@@ -209,11 +260,14 @@ class Dashboard extends Component {
                                     <Fade {...TransitionProps} timeout={150}>
                                         <Paper className={classes.paper}>
                                             <List component="nav" className={classes.list}>
+                                                <ListItem className={classes.listItem} button>
+                                                    <ListItemText primary="Edit"/>
+                                                </ListItem>
                                                 <ListItem className={classes.listItem} button onClick={this.onClickRefetch}>
-                                                    <ListItemText primary="Re-fetch" />
+                                                    <ListItemText primary="Fetch New Data" />
                                                 </ListItem>
                                                 <ListItem className={classes.listItem} button>
-                                                    <ListItemText primary="Send" />
+                                                    <ListItemText primary="Send" onClick={this.openSendDialog}/>
                                                 </ListItem>
                                             </List>
                                         </Paper>
@@ -265,4 +319,4 @@ const mapStateToProps = state => ({
     campaigns: state.campaigns,
 });
 
-export default connect(mapStateToProps, {getPreviewCampaignData, getNewCampaignData})(withStyles(styles)(Dashboard));
+export default connect(mapStateToProps, {getPreviewCampaignData, getNewCampaignData, getMessageSend})(withStyles(styles)(Dashboard));

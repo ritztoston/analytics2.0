@@ -154,12 +154,12 @@ class Campaigns extends Component {
                         </Typography>
                         <AccountTablesFor7 onClick={this.onClick} searchText={searchText}/>
                     </Grid>
-                    <Grid item xs={12} md={6} lg={4}>
-                        <Typography className={classes.titles} variant={'subtitle1'}>
-                            Traditional List
-                        </Typography>
-                        <AccountTablesForTrad onClick={this.onClick} searchText={searchText}/>
-                    </Grid>
+                    {/*<Grid item xs={12} md={6} lg={4}>*/}
+                        {/*<Typography className={classes.titles} variant={'subtitle1'}>*/}
+                            {/*Traditional List*/}
+                        {/*</Typography>*/}
+                        {/*<AccountTablesForTrad onClick={this.onClick} searchText={searchText}/>*/}
+                    {/*</Grid>*/}
                 </Grid>
             </React.Fragment>
         )

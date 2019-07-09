@@ -76,6 +76,19 @@ export const getMessagePaused = (account, id, rowsPerPage) => async dispatch => 
     }
 };
 
+export const getMessageSend = (account, id, rowsPerPage) => async dispatch => {
+    dispatch(setLoadingTrue());
+    try {
+        await axios.get(`http://www.analyticsapi.salesrobot.com/${account}/messages/update/submitted/${id}`);
+        const res = await axios.get(`http://www.analyticsapi.salesrobot.com/${account}/campaigns/active/?page_size=${rowsPerPage}`);
+        dispatch(setActiveCampaign(res));
+        dispatch(setLoadingFalse());
+    } catch (err) {
+        dispatch(setErrors(err));
+        dispatch(setLoadingFalse());
+    }
+};
+
 export const getPreviewCampaignData = (account, id) => async dispatch => {
     try {
         dispatch(clearCampaigns());

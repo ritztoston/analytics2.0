@@ -8,7 +8,6 @@ import {
     GET_SUBSCRIBER_MEMBERS,
     GET_SUBSCRIBERS_LISTS
 } from "./types";
-import {setDraftCampaign} from "./campaignActions";
 
 export const getSubscribersList = shorten => dispatch => {
     dispatch(setLoadingTrue());
