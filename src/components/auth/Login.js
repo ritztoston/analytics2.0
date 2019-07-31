@@ -65,7 +65,7 @@ class Login extends Component {
         const errors = nextProps.errors;
 
         if(nextProps.auth.isAuthenticated)
-            nextProps.history.push('/dashboard');
+            nextProps.history.push('/campaigns');
 
         if (errors)
             return {errors};
