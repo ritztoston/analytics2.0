@@ -16,7 +16,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import clsx from "clsx";
 import Paper from "@material-ui/core/Paper";
-import AccountTablesFor8 from "../tables/AccountTablesFor8";
+import AccountTablesFor9 from "../tables/AccountTablesFor9";
 
 const styles = theme => ({
     search: {
@@ -144,9 +144,9 @@ class Campaigns extends Component {
                         </Typography>
                         <AccountTablesFor6 onClick={this.onClick} searchText={searchText}/>
                         <Typography className={classes.titles} variant={'subtitle1'}>
-                            Briefing for 8:00AM
+                            Briefing for 9:00AM
                         </Typography>
-                        <AccountTablesFor8 onClick={this.onClick} searchText={searchText}/>
+                        <AccountTablesFor9 onClick={this.onClick} searchText={searchText}/>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4}>
                         <Typography className={classes.titles} variant={'subtitle1'}>

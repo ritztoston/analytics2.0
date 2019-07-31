@@ -38,7 +38,7 @@ function createData(account, shorten, teamLead, sched, time, status) {
 }
 
 const data = [
-    createData('Perspecta', 'perspecta', 'Ray Santos', 'Monday - Friday','7:00AM EST', 'Active'),
+    createData('L3 Harris', 'harris', 'Marc Mondala', 'Monday - Friday','7:00AM EST', 'Internal Testing'),
     createData('Peraton', 'peraton', 'Gigi Melecio', 'Monday - Friday','7:00AM EST', 'Active'),
     createData('Raytheon', 'raytheon', 'Ray Santos', 'Monday - Friday','7:00AM EST', 'Active'),
     createData('Maxar Technologies', 'maxar', 'Jhoanna Valdez', 'Monday - Friday','7:00AM EST', 'Active'),
