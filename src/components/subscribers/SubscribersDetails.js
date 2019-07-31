@@ -99,24 +99,6 @@ class Dashboard extends Component {
                             </Card>
                         </Grid>
                     ))}
-                    {/*<Grid item xs={6} md={4}>*/}
-                        {/*<Card>*/}
-                            {/*<CardActionArea>*/}
-                                {/*<CardContent>*/}
-                                    {/*<Grid container direction="row" alignItems="center">*/}
-                                        {/*<Grid item>*/}
-                                            {/*<AddCircleOutline className={classes.icon}/>*/}
-                                        {/*</Grid>*/}
-                                        {/*<Grid item>*/}
-                                            {/*<Typography guterBottom variant="h5" component="h2">*/}
-                                                {/*Add new list*/}
-                                            {/*</Typography>*/}
-                                        {/*</Grid>*/}
-                                    {/*</Grid>*/}
-                                {/*</CardContent>*/}
-                            {/*</CardActionArea>*/}
-                        {/*</Card>*/}
-                    {/*</Grid>*/}
                 </Grid>
             </React.Fragment>
         )
