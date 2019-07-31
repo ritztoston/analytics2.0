@@ -48,6 +48,45 @@ const styles = theme => ({
 
 const AccountTablesForTrad = props => {
     const {classes, data, rowsPerPage, page, searchText, allData} = props;
+
+    const filteredData = (
+        allData.filter(n => {
+            return !isEmpty(n.email) && n.email.toLowerCase().includes(searchText);
+        }).map((n, index) => {
+            const isItemSelected = props.isSelected(n.id);
+            const labelId = `table-checkbox-${index}`;
+
+            return (
+                <TableRow className={classes.tableRow} key={n.id} hover>
+                    <TableCell padding="checkbox">
+                        <Checkbox
+                            checked={isItemSelected}
+                            inputProps={{ 'aria-labelledby': labelId }}
+                            onClick={() => props.handleCheckBox(n.id, n.email)}
+                        />
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                        <Typography>{n.email}</Typography>
+                    </TableCell>
+                    <TableCell>
+                        {n.blacklisted === 1 ? (<Typography color="secondary" className={classes.typography}>Blacklisted</Typography>) : n.confirmed === 1 ? (<Typography color="textSecondary" className={classes.typography}>Confirmed</Typography>) : (<Typography color="secondary" className={classes.typography}>Unconfirmed</Typography>)}
+                    </TableCell>
+                    <TableCell align="right">
+                        <Typography variant="subtitle2"><Moment subtract={{hours: 4}} date={n.entered} format="ddd, MMM D YYYY h:mm A"/></Typography>
+                    </TableCell>
+                </TableRow>
+            );
+        })
+    );
+
+    const noResult = (
+        <TableRow>
+            <TableCell component="th" scope="row" align="center">
+                <Typography>- Subscriber not found -</Typography>
+            </TableCell>
+        </TableRow>
+    );
+
     return (
         <Paper className={classes.root}>
             <Table>
@@ -76,33 +115,7 @@ const AccountTablesForTrad = props => {
                                 </TableCell>
                             </TableRow>
                         );
-                    }) : !isEmpty(allData) && allData.filter(n => {
-                        return n.email.toLowerCase().includes(searchText);
-                    }).map((n, index) => {
-                        const isItemSelected = props.isSelected(n.id);
-                        const labelId = `table-checkbox-${index}`;
-
-                        return (
-                            <TableRow className={classes.tableRow} key={n.id} hover>
-                                <TableCell padding="checkbox">
-                                    <Checkbox
-                                        checked={isItemSelected}
-                                        inputProps={{ 'aria-labelledby': labelId }}
-                                        onClick={() => props.handleCheckBox(n.id, n.email)}
-                                    />
-                                </TableCell>
-                                <TableCell component="th" scope="row">
-                                    <Typography>{n.email}</Typography>
-                                </TableCell>
-                                <TableCell>
-                                    {n.blacklisted === 1 ? (<Typography color="secondary" className={classes.typography}>Blacklisted</Typography>) : n.confirmed === 1 ? (<Typography color="textSecondary" className={classes.typography}>Confirmed</Typography>) : (<Typography color="secondary" className={classes.typography}>Unconfirmed</Typography>)}
-                                </TableCell>
-                                <TableCell align="right">
-                                    <Typography variant="subtitle2"><Moment subtract={{hours: 4}} date={n.entered} format="ddd, MMM D YYYY h:mm A"/></Typography>
-                                </TableCell>
-                            </TableRow>
-                        );
-                    })}
+                    }) : !isEmpty(allData) && !isEmpty(filteredData) ? filteredData : noResult}
                 </TableBody>
                 {!isEmpty(data.results) && isEmpty(searchText) ? <TableFooter>
                     <TableRow className={classes.tableRowPagination}>

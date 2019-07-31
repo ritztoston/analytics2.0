@@ -67,8 +67,8 @@ export const getMessagePaused = (account, id, rowsPerPage) => async dispatch => 
     dispatch(setLoadingTrue());
     try {
         await axios.get(`http://www.analyticsapi.salesrobot.com/${account}/messages/update/sent/${id}`);
-        const res = await axios.get(`http://www.analyticsapi.salesrobot.com/${account}/campaigns/draft/?page_size=${rowsPerPage}`);
-        dispatch(setDraftCampaign(res));
+        const res = await axios.get(`http://www.analyticsapi.salesrobot.com/${account}/campaigns/active/?page_size=${rowsPerPage}`);
+        dispatch(setActiveCampaign(res));
         dispatch(setLoadingFalse());
     } catch (err) {
         dispatch(setErrors(err));

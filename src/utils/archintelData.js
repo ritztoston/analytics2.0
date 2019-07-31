@@ -10,13 +10,16 @@ const data = [
     createData('Leidos', 'leidos', 'Active'),
     createData('SOS International', 'sosi', 'Active'),
     // createData('Iridium', 'iridium', 'Not Active'),
-    createData('Perspecta', 'perspecta', 'Active'),
-    createData('Maxar Technologies', 'maxar', 'Internal Testing'),
+    createData('Perspecta', 'perspecta', 'Internal Testing'),
+    createData('Peraton', 'peraton', 'Active'),
+    createData('Raytheon', 'raytheon', 'Active'),
+    createData('Maxar Technologies', 'maxar', 'Active'),
     createData('CACI', 'caci', 'Active'),
     createData('Premier', 'premier', 'Active'),
-    createData('George Washington University', 'george', 'Active'),
     createData('SAP Public Services', 'sap', 'Internal Testing'),
     createData('KBR', 'kbr', 'Internal Testing'),
+    createData('George Washington University', 'george', 'Active'),
+    createData('L3 Harris', 'harris', 'Internal Testing'),
 ];
 
 export default data;

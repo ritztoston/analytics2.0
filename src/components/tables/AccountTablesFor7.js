@@ -39,11 +39,12 @@ function createData(account, shorten, teamLead, sched, time, status) {
 
 const data = [
     createData('Perspecta', 'perspecta', 'Ray Santos', 'Monday - Friday','7:00AM EST', 'Active'),
-    createData('Maxar Technologies', 'maxar', 'Jhoanna Valdez', 'Monday - Friday','7:00AM EST', 'Internal Testing'),
+    createData('Peraton', 'peraton', 'Gigi Melecio', 'Monday - Friday','7:00AM EST', 'Active'),
+    createData('Raytheon', 'raytheon', 'Ray Santos', 'Monday - Friday','7:00AM EST', 'Active'),
+    createData('Maxar Technologies', 'maxar', 'Jhoanna Valdez', 'Monday - Friday','7:00AM EST', 'Active'),
     createData('CACI', 'caci', 'Gigi Melecio', 'Monday - Friday','7:00AM EST', 'Active'),
     createData('Premier', 'premier', 'Marc Mondala', 'Monday - Friday','7:00AM EST', 'Active'),
     createData('SAP Public Services', 'sap', 'Anna Mondala', 'Monday - Friday','7:00AM EST', 'Internal Testing'),
-    createData('KBR', 'kbr', 'Marc Mondala', 'Monday - Friday','7:00AM EST', 'Internal Testing'),
 ];
 
 const AccountTablesFor7 = props => {

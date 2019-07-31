@@ -38,6 +38,7 @@ function createData(account, shorten, teamLead, sched, time, status) {
 }
 
 const data = [
+    createData('L3 Harris', 'harris', 'Marc Mondala', 'Monday - Friday','8:00AM EST', 'Internal Testing'),
     createData('George Washington University', 'george', 'Marc Mondala', 'Friday Only','8:00AM EST', 'Active'),
 ];
 

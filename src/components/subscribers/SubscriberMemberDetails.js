@@ -234,6 +234,9 @@ class Dashboard extends Component {
                         {!isEmpty(selectedIDs) && <Button variant="contained" onClick={this.handleClickBlacklist} color="secondary" className={classes.button}>
                             Blacklist
                         </Button>}
+                        <Button variant="contained" onClick={this.handleClickBlacklist} color="primary" className={classes.button}>
+                            Subscribe
+                        </Button>
                         <Paper style={{display: 'inline-block'}}>
                             {!loading.buffer2 && !isEmpty(subscribers.subscriberAllMembers) ? <div className={classes.search}>
                                 <div className={classes.searchIcon}>

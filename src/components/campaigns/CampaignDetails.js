@@ -129,8 +129,10 @@ class CampaignDetails extends Component {
         const {rowsPerPage, campaignId, shorten} = this.state;
 
         this.props.getMessagePaused(shorten, campaignId, rowsPerPage);
-        this.setState({openModal: false, campaignId: 0, valueTab: 1});
-        this.props.history.push(`${this.props.location.pathname}?tab=draft&page=1`);
+        this.setState({openModal: false, campaignId: 0, valueTab: 0});
+
+        // this.props.history.push(`${this.props.location.pathname}?tab=draft&page=1`);
+        // this.props.history.push(`${this.props.location.pathname}?tab=active&page=1`);
     };
 
     componentDidMount() {
