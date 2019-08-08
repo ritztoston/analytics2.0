@@ -7,12 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import {decode} from "../../utils/SetBase64";
 import connect from "react-redux/es/connect/connect";
-import {
-    getDefaultPreviewCampaignData,
-    getMessageSend,
-    getNewCampaignData,
-    getPreviewCampaignData
-} from "../../actions/campaignActions";
+import {getMessageSend, getNewCampaignData, getPreviewCampaignData} from "../../actions/campaignActions";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import isEmpty from "../../validations/isEmpty";
 import currentDate from "../../utils/currentDate";
@@ -28,7 +23,6 @@ import Fade from "@material-ui/core/Fade";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
-import Box from "@material-ui/core/Box";
 
 const styles = theme => ({
     rssContent: {
@@ -62,13 +56,6 @@ const styles = theme => ({
     paper: {
         marginTop: theme.spacing(.45),
         minWidth: 180,
-    },
-    previewNote: {
-        color: '#000000',
-        display: 'inline-block',
-        backgroundColor: '#FBEECA',
-        padding: theme.spacing(1.2, 1.6),
-        marginTop: theme.spacing(1.5),
     },
 });
 
@@ -123,14 +110,10 @@ class Dashboard extends Component {
     };
 
     componentDidMount() {
-        let id, encodedId;
         const {action} = queryString.parse(this.props.location.search);
         const rawEncoded = decode(this.props.match.params.account);
-
-        if(action !== 'defaultPreview') {
-            id = decode(this.props.match.params.id);
-            encodedId = this.props.match.params.id;
-        }
+        const id = decode(this.props.match.params.id);
+        const encodedId = this.props.match.params.id;
 
         const arr = rawEncoded.split('-');
         const shorten = decode(arr[0]);
@@ -139,8 +122,6 @@ class Dashboard extends Component {
 
         if(action === 'preview')
             this.props.getPreviewCampaignData(shorten, id);
-        else if(action === 'defaultPreview')
-            this.props.getDefaultPreviewCampaignData(shorten);
         else
             this.props.getPreviewCampaignData(shorten, id);
 
@@ -228,28 +209,28 @@ class Dashboard extends Component {
         const {account, encodedId, anchorEl, isOpenSendDialog} = this.state;
         const {classes, loading} = this.props;
         const anchorId = anchorEl ? 'simple-popper' : null;
-        const {action, tab} = queryString.parse(this.props.location.search);
-        const defaultPreview = 'defaultPreview';
 
-        const sendDialog = (<Dialog
-            open={isOpenSendDialog}
-            onClose={this.closeSendDialog}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            maxWidth={'xs'}
-        >
-            <DialogTitle id="alert-dialog-title">
-                Are you sure you want to send {account}#{encodedId}?
-            </DialogTitle>
-            <DialogActions>
-                <Button color="secondary" onClick={this.closeSendDialog}>
-                    Cancel
-                </Button>
-                <Button color="primary" onClick={this.handleSendCampaign} autoFocus>
-                    Send
-                </Button>
-            </DialogActions>
-        </Dialog>);
+        const sendDialog = (
+            <Dialog
+                open={isOpenSendDialog}
+                onClose={this.closeSendDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                maxWidth={'xs'}
+            >
+                <DialogTitle id="alert-dialog-title">
+                    Are you sure you want to send {account}#{encodedId}?
+                </DialogTitle>
+                <DialogActions>
+                    <Button color="secondary" onClick={this.closeSendDialog}>
+                        Cancel
+                    </Button>
+                    <Button color="primary" onClick={this.handleSendCampaign} autoFocus>
+                        Send
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        );
 
         return (
             <React.Fragment>
@@ -258,58 +239,53 @@ class Dashboard extends Component {
                 </Helmet>
                 {sendDialog}
                 <Grid container spacing={3}>
-                    <Grid item xs={action === defaultPreview ? 4 : 6}>
+                    <Grid item xs={6}>
                         <Typography variant={'h6'}>
                             Campaign Details
                         </Typography>
                         <Typography variant={'subtitle2'}>
-                            {action === defaultPreview ? `Campaign Account: ${account}` : `Campaign ID: ${account}#${encodedId}`}
+                            Campaign ID: {account}#{encodedId}
                         </Typography>
                     </Grid>
-                    {action === defaultPreview && <Grid item xs={4} style={{textAlign: 'center'}}>
-                        <Box className={classes.previewNote} borderRadius={25} fontWeight={600} fontSize={16}>
-                            Preview Mode
-                        </Box>
-                    </Grid>}
-                    <Grid item xs={action === defaultPreview ? 4 : 6} style={{textAlign: 'right'}}>
-                        {!loading.buffer && <Typography>
-                            <Button color="primary" className={classes.button} variant="contained" onClick={this.refreshComponent}>
-                                Refresh
-                            </Button>
-                            <Button color="primary" className={[classes.button, classes.downButton]} aria-describedby={anchorId} variant="contained" onClick={this.handlePopperClick}>
-                                <KeyboardArrowDown/>
-                            </Button>
-                            <Popper id={anchorId} open={anchorEl} anchorEl={anchorEl} transition placement="bottom-end">
-                                {({ TransitionProps }) => (
-                                    <Fade {...TransitionProps} timeout={150}>
-                                        <Paper className={classes.paper}>
-                                            <List component="nav" className={classes.list}>
-                                                <ListItem className={classes.listItem} button>
-                                                    <ListItemText primary="Edit"/>
-                                                </ListItem>
-                                                <ListItem className={classes.listItem} button onClick={this.onClickRefetch}>
-                                                    <ListItemText primary="Fetch New Data" />
-                                                </ListItem>
-                                                {action !== defaultPreview && tab === 'draft' && <ListItem className={classes.listItem} button>
-                                                    <ListItemText primary="Send" onClick={this.openSendDialog}/>
-                                                </ListItem>}
-                                            </List>
-                                        </Paper>
-                                    </Fade>
-                                )}
-                            </Popper>
-                        </Typography>}
-                    </Grid>
-                    {!loading.buffer && (<Grid
-                        className={classes.rssContent}
-                        container
-                        spacing={0}
-                        justify="center"
-                        alignItems="center"
-                    >
-                        {renderHTML('<style type="text/css">ul, ol {padding-left: 40px;} strong {font-weight: 600 !important;}</style>')}
-                        <div dangerouslySetInnerHTML={this.createMarkup()}/>
-                    </Grid>)}
+                    {/*<Grid item xs={6} style={{textAlign: 'right'}}>*/}
+                        {/*{!loading.buffer && <Typography>*/}
+                            {/*<Button color="primary" className={classes.button} variant="contained" onClick={this.refreshComponent}>*/}
+                                {/*Refresh*/}
+                            {/*</Button>*/}
+                            {/*<Button color="primary" className={[classes.button, classes.downButton]} aria-describedby={anchorId} variant="contained" onClick={this.handlePopperClick}>*/}
+                                {/*<KeyboardArrowDown/>*/}
+                            {/*</Button>*/}
+                            {/*<Popper id={anchorId} open={anchorEl} anchorEl={anchorEl} transition placement="bottom-end">*/}
+                                {/*{({ TransitionProps }) => (*/}
+                                    {/*<Fade {...TransitionProps} timeout={150}>*/}
+                                        {/*<Paper className={classes.paper}>*/}
+                                            {/*<List component="nav" className={classes.list}>*/}
+                                                {/*<ListItem className={classes.listItem} button>*/}
+                                                    {/*<ListItemText primary="Edit"/>*/}
+                                                {/*</ListItem>*/}
+                                                {/*<ListItem className={classes.listItem} button onClick={this.onClickRefetch}>*/}
+                                                    {/*<ListItemText primary="Fetch New Data" />*/}
+                                                {/*</ListItem>*/}
+                                                {/*<ListItem className={classes.listItem} button>*/}
+                                                    {/*<ListItemText primary="Send" onClick={this.openSendDialog}/>*/}
+                                                {/*</ListItem>*/}
+                                            {/*</List>*/}
+                                        {/*</Paper>*/}
+                                    {/*</Fade>*/}
+                                {/*)}*/}
+                            {/*</Popper>*/}
+                        {/*</Typography>}*/}
+                    {/*</Grid>*/}
+                    {/*{!loading.buffer && (<Grid*/}
+                            {/*className={classes.rssContent}*/}
+                            {/*container*/}
+                            {/*spacing={0}*/}
+                            {/*justify="center"*/}
+                            {/*alignItems="center"*/}
+                        {/*>*/}
+                            {/*{renderHTML('<style type="text/css">ul, ol {padding-left: 40px;} strong {font-weight: 600 !important;}</style>')}*/}
+                            {/*<div dangerouslySetInnerHTML={this.createMarkup()}/>*/}
+                        {/*</Grid>)}*/}
                 </Grid>
                 {loading.buffer && <Grid
                     className={classes.content}
@@ -343,4 +319,4 @@ const mapStateToProps = state => ({
     campaigns: state.campaigns,
 });
 
-export default connect(mapStateToProps, {getDefaultPreviewCampaignData, getPreviewCampaignData, getNewCampaignData, getMessageSend})(withStyles(styles)(Dashboard));
+export default connect(mapStateToProps, {getPreviewCampaignData, getNewCampaignData, getMessageSend})(withStyles(styles)(Dashboard));

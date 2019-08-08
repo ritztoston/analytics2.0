@@ -8,6 +8,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from "@material-ui/core/Typography";
 import isEmpty from "../../validations/isEmpty";
+import Tooltip from "@material-ui/core/Tooltip";
+import Button from "@material-ui/core/Button";
+import SearchIcon from '@material-ui/icons/Search';
 
 const styles = theme => ({
     root: {
@@ -48,15 +51,19 @@ const AccountTablesForTrad = props => {
 
     const content1 = (data.map(n => {
         return (
-            <TableRow className={classes.tableRow} key={n.id} onClick={() => props.onClick(n.shorten, n.account, n.sched, n.time, n.status)} hover>
+            <TableRow className={classes.tableRow} key={n.id} onClick={() => props.onClick(n.shorten, n.account, n.sched, n.status, n.status)} hover>
                 <TableCell component="th" scope="row">
                     <Typography color="primary">{n.account}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.sched}</Typography>
-                    <Typography className={classes.subtitles} variant="subtitle2">{n.time}</Typography>
+                    <Typography className={classes.subtitles} variant="subtitle2">{n.teamLead}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.status}</Typography>
                 </TableCell>
                 <TableCell align="right">
-                    <Typography className={classes.subtitles} variant="subtitle2">{n.teamLead}</Typography>
+                    <Tooltip title="Preview Template" placement="top">
+                        <Button variant="contained" color="primary" className={classes.button} onClick={props.clickPreview(n.shorten, n.account, n.sched, n.time, n.status)}>
+                            <SearchIcon className={classes.searchIcon} />
+                        </Button>
+                    </Tooltip>
                 </TableCell>
             </TableRow>
         );
@@ -65,15 +72,19 @@ const AccountTablesForTrad = props => {
         return n.account.toLowerCase().includes(searchText);
     }).map(n => {
         return (
-            <TableRow className={classes.tableRow} key={n.id} onClick={() => props.onClick(n.shorten, n.account, n.sched, n.time, n.status)} hover>
+            <TableRow className={classes.tableRow} key={n.id} onClick={() => props.onClick(n.shorten, n.account, n.sched, n.status, n.status)} hover>
                 <TableCell component="th" scope="row">
                     <Typography color="primary">{n.account}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.sched}</Typography>
-                    <Typography className={classes.subtitles} variant="subtitle2">{n.time}</Typography>
+                    <Typography className={classes.subtitles} variant="subtitle2">{n.teamLead}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.status}</Typography>
                 </TableCell>
                 <TableCell align="right">
-                    <Typography className={classes.subtitles} variant="subtitle2">{n.teamLead}</Typography>
+                    <Tooltip title="Preview Template" placement="top">
+                        <Button variant="contained" color="primary" className={classes.button} onClick={props.clickPreview(n.shorten, n.account, n.sched, n.time, n.status)}>
+                            <SearchIcon className={classes.searchIcon} />
+                        </Button>
+                    </Tooltip>
                 </TableCell>
             </TableRow>
         );

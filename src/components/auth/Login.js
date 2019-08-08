@@ -65,7 +65,7 @@ class Login extends Component {
         const errors = nextProps.errors;
 
         if(nextProps.auth.isAuthenticated)
-            nextProps.history.push('/campaigns');
+            nextProps.history.push('/dashboard');
 
         if (errors)
             return {errors};
@@ -167,8 +167,6 @@ class Login extends Component {
                 </Grid>
             </form>
         </React.Fragment>);
-
-        console.log(this.props);
 
         return (
             <React.Fragment>

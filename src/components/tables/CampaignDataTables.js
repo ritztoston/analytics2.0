@@ -97,7 +97,7 @@ const CampaignDataTables = props => {
                 return (
                     <TableRow key={n.id}>
                         <TableCell className={classes.tableCell} component="th" scope="row">
-                            <Typography className={classes.link} color="primary" component={Link} to={`${props.pathname}/${encodedId}?action=preview`}>{n.subject}</Typography>
+                            <Typography className={classes.link} color="primary" component={Link} to={valueTab === 0 ? `${props.pathname}/${encodedId}?tab=active&action=preview` : `${props.pathname}/${encodedId}?tab=draft&action=preview`}>{n.subject}</Typography>
                             <Typography className={classes.subtitles} variant="subtitle2">Sends on <Moment date={n.embargo} format="ddd, MMM D YYYY"/> at <Moment add={{hours: 4}} date={n.embargo} format="h:mm A" /></Typography>
                         </TableCell>
                         <TableCell align="right">
@@ -116,7 +116,7 @@ const CampaignDataTables = props => {
                                                     <ListItem className={classes.listItem} button>
                                                         <ListItemText primary="Edit" />
                                                     </ListItem>
-                                                    <ListItem className={classes.listItem} button component={Link} to={`${props.pathname}/${encodedId}?action=preview`}>
+                                                    <ListItem className={classes.listItem} button component={Link} to={`${props.pathname}/${encodedId}?tab=active&action=preview`}>
                                                         <ListItemText primary="Preview" />
                                                     </ListItem>
                                                 </List>
@@ -142,7 +142,7 @@ const CampaignDataTables = props => {
                                                     <ListItem className={classes.listItem} button>
                                                         <ListItemText primary="Edit" />
                                                     </ListItem>
-                                                    <ListItem className={classes.listItem} button component={Link} to={`${props.pathname}/${encodedId}?action=preview`}>
+                                                    <ListItem className={classes.listItem} button component={Link} to={`${props.pathname}/${encodedId}?tab=draft&action=preview`}>
                                                         <ListItemText primary="Preview" />
                                                     </ListItem>
                                                 </List>

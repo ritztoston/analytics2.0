@@ -108,7 +108,7 @@ class Subscribers extends Component {
         };
     }
 
-    quickAdd = (account, shorten) => e =>{
+    quickAdd = (account, shorten) => e => {
         e.stopPropagation();
 
         this.props.getSubscribersList(shorten);

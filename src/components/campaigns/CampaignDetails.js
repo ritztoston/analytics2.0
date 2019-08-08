@@ -18,9 +18,10 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
+import CampaignSoloDetails from "./CampaignSoloDetails";
 
 const styles = theme => ({
-    paper: {
+    tabPaper: {
         paddingTop: theme.spacing(2),
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
@@ -164,60 +165,62 @@ class CampaignDetails extends Component {
     render() {
         const {classes, campaigns, loading, location} = this.props;
         const {account, sched, status, valueTab, page, rowsPerPage, anchorEl, campaignTitle, openModal} = this.state;
+        const {action} = queryString.parse(this.props.location.search);
 
-        return (
-            <React.Fragment>
-                <Helmet defer={false}>
-                    <title>{account} | SalesRobot3.0</title>
-                </Helmet>
-                <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                        <Typography variant={'h6'}>
-                            {account}
-                        </Typography>
-                        <Typography variant={'subtitle2'}>
-                            {`Status: ${status}`}
-                        </Typography>
-                        <Typography variant={'subtitle2'}>
-                            {`Sends on ${sched} when new posts are added`}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Paper className={classes.paper}>
-                            <StyledTabs value={valueTab} onChange={this.handleChangeTab}>
-                                <StyledTab label="Active" />
-                                <StyledTab label="Draft" />
-                            </StyledTabs>
-                            <Typography className={classes.typography} />
-                            <CampaignDataTables pathname={location.pathname} anchorEl={anchorEl} loading={loading.buffer} data={campaigns} page={page} rowsPerPage={rowsPerPage} handleChangePage={this.handleChangePage} handleChangeRowsPerPage={this.handleChangeRowsPerPage} valueTab={valueTab} handlePopperClick={this.handlePopperClick} openPauseModal={this.openPauseModal}/>
-                        </Paper>
-                    </Grid>
+        const defaultContent = (<React.Fragment>
+            <Helmet defer={false}>
+                <title>{account} | SalesRobot3.0</title>
+            </Helmet>
+            <Grid container spacing={3}>
+                <Grid item xs={12}>
+                    <Typography variant={'h6'}>
+                        {account}
+                    </Typography>
+                    <Typography variant={'subtitle2'}>
+                        {`Status: ${status}`}
+                    </Typography>
+                    <Typography variant={'subtitle2'}>
+                        {`Sends on ${sched} when new posts are added`}
+                    </Typography>
                 </Grid>
+                <Grid item xs={12}>
+                    <Paper className={classes.tabPaper}>
+                        <StyledTabs value={valueTab} onChange={this.handleChangeTab}>
+                            <StyledTab label="Active" />
+                            <StyledTab label="Draft" />
+                        </StyledTabs>
+                        <Typography className={classes.typography} />
+                        <CampaignDataTables pathname={location.pathname} anchorEl={anchorEl} loading={loading.buffer} data={campaigns} page={page} rowsPerPage={rowsPerPage} handleChangePage={this.handleChangePage} handleChangeRowsPerPage={this.handleChangeRowsPerPage} valueTab={valueTab} handlePopperClick={this.handlePopperClick} openPauseModal={this.openPauseModal}/>
+                    </Paper>
+                </Grid>
+            </Grid>
 
-                <Dialog
-                    open={openModal}
-                    onClose={this.closePauseModal}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                    maxWidth="xs"
-                >
-                    <DialogTitle id="alert-dialog-title">Are you sure to pause campaign?</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            Editing an active campaign, "{campaignTitle}", will place it back in the Draft queue.
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button color="primary" onClick={this.closePauseModal}>
-                            Disagree
-                        </Button>
-                        <Button color="primary" autoFocus onClick={this.getMessagePaused}>
-                            Agree
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-            </React.Fragment>
-        )
+            <Dialog
+                open={openModal}
+                onClose={this.closePauseModal}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                maxWidth="xs"
+            >
+                <DialogTitle id="alert-dialog-title">Are you sure to pause campaign?</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Editing an active campaign, "{campaignTitle}", will place it back in the Draft queue.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button color="primary" onClick={this.closePauseModal}>
+                        Disagree
+                    </Button>
+                    <Button color="primary" autoFocus onClick={this.getMessagePaused}>
+                        Agree
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </React.Fragment>);
+        const previewContent = <CampaignSoloDetails {...this.props}/>;
+
+        return action !== 'defaultPreview' ? defaultContent : previewContent
     }
 }
 

@@ -8,6 +8,10 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from "@material-ui/core/Typography";
 import isEmpty from "../../validations/isEmpty";
+import Tooltip from "@material-ui/core/Tooltip";
+import Button from "@material-ui/core/Button";
+import SearchIcon from '@material-ui/icons/Search';
+import data from "../../utils/archintelData";
 
 const styles = theme => ({
     root: {
@@ -31,51 +35,49 @@ const styles = theme => ({
     },
 });
 
-let id = 0;
-function createData(account, shorten, teamLead, sched, time, status) {
-    id += 1;
-    return {id, account, shorten, teamLead, sched, time, status};
-}
+const AccountTablesForArchintel = props => {
+    const {classes, searchText, time} = props;
 
-const data = [
-    createData('AECOM', 'aecom', 'Gigi Melecio', 'Monday - Friday','6:00AM EST', 'Active'),
-    createData('Leidos', 'leidos', 'Jhoanna Valdez', 'Monday - Friday','6:00AM EST', 'Active'),
-    createData('SOS International', 'sosi', 'Gigi Melecio', 'Monday - Friday','6:00AM EST', 'Active'),
-    createData('KBR', 'kbr', 'Marc Mondala', 'Monday - Friday','6:00AM EST', 'Internal Testing'),
-    // createData('Iridium', 'iridium', 'Gigi Melecio', 'Monday - Friday','6:00AM EST', 'Active'),
-];
-
-const AccountTablesFor6 = props => {
-    const {classes, searchText} = props;
-
-    const content1 = (data.map(n => {
+    const content1 = (data.filter(n => {
+        return n.time === time
+    }).map(n => {
         return (
-            <TableRow className={classes.tableRow} key={n.id} onClick={() => props.onClick(n.shorten, n.account, n.sched, n.time, n.status)} hover>
+            <TableRow className={classes.tableRow} key={n.id} hover onClick={() => props.onClick(n.shorten, n.account, n.sched, n.time, n.status)}>
                 <TableCell component="th" scope="row">
                     <Typography color="primary">{n.account}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.sched}</Typography>
-                    <Typography className={classes.subtitles} variant="subtitle2">{n.time}</Typography>
+                    <Typography className={classes.subtitles} variant="subtitle2">{n.teamLead}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.status}</Typography>
                 </TableCell>
                 <TableCell align="right">
-                    <Typography className={classes.subtitles} variant="subtitle2">{n.teamLead}</Typography>
+                    <Tooltip title="Preview Template" placement="top">
+                        <Button variant="contained" color="primary" className={classes.button} onClick={props.clickPreview(n.shorten, n.account, n.sched, n.time, n.status)}>
+                            <SearchIcon className={classes.searchIcon} />
+                        </Button>
+                    </Tooltip>
                 </TableCell>
             </TableRow>
         );
     }));
     const content2 = (data.filter(n => {
+        return n.time === time
+    }).filter(n => {
         return n.account.toLowerCase().includes(searchText);
     }).map(n => {
         return (
-            <TableRow className={classes.tableRow} key={n.id} onClick={() => props.onClick(n.shorten, n.account, n.sched, n.time, n.status)} hover>
+            <TableRow className={classes.tableRow} key={n.id} onClick={() => props.onClick(n.shorten, n.account, n.sched, n.status, n.status)} hover>
                 <TableCell component="th" scope="row">
                     <Typography color="primary">{n.account}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.sched}</Typography>
-                    <Typography className={classes.subtitles} variant="subtitle2">{n.time}</Typography>
+                    <Typography className={classes.subtitles} variant="subtitle2">{n.teamLead}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.status}</Typography>
                 </TableCell>
                 <TableCell align="right">
-                    <Typography className={classes.subtitles} variant="subtitle2">{n.teamLead}</Typography>
+                    <Tooltip title="Preview Template" placement="top">
+                        <Button variant="contained" color="primary" className={classes.button} onClick={props.clickPreview(n.shorten, n.account, n.sched, n.time, n.status)}>
+                            <SearchIcon className={classes.searchIcon} />
+                        </Button>
+                    </Tooltip>
                 </TableCell>
             </TableRow>
         );
@@ -98,8 +100,8 @@ const AccountTablesFor6 = props => {
     );
 };
 
-AccountTablesFor6.propTypes = {
+AccountTablesForArchintel.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AccountTablesFor6);
+export default withStyles(styles)(AccountTablesForArchintel);

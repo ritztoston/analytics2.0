@@ -5,9 +5,7 @@ import PropTypes from "prop-types";
 import {Helmet} from "react-helmet";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import AccountTablesFor6 from "../tables/AccountTablesFor6";
-import AccountTablesFor7 from "../tables/AccountTablesFor7";
-import AccountTablesForTrad from "../tables/AccountTablesForTrad";
+import AccountTablesForArchintel from "../tables/AccountTablesForArchintel";
 import {encode} from "../../utils/SetBase64";
 import InputBase from "@material-ui/core/InputBase";
 import {fade} from "@material-ui/core/styles";
@@ -16,7 +14,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import clsx from "clsx";
 import Paper from "@material-ui/core/Paper";
-import AccountTablesFor9 from "../tables/AccountTablesFor9";
+import AccountTablesForTrad from "../tables/AccountTablesForTrad";
+import isUserAllowedComponent from "../../utils/isUserAllowedComponent";
+import connect from "react-redux/es/connect/connect";
 
 const styles = theme => ({
     search: {
@@ -89,6 +89,19 @@ class Campaigns extends Component {
         this.props.history.push(`${this.props.location.pathname}/${encoded}?tab=active&page=1`);
     };
 
+    clickPreview = (shorten, account, sched, time, status) => e => {
+        e.stopPropagation();
+        const encodedShorten = encode(shorten);
+        const encodedAccount = encode(account);
+        const encodedSched = encode(sched);
+        const encodedTime = encode(time);
+        const encodedStatus = encode(status);
+        const encodedAll = `${encodedShorten}-${encodedAccount}-${encodedSched}-${encodedTime}-${encodedStatus}`;
+        const encoded = encode(encodedAll);
+
+        this.props.history.push(`${this.props.location.pathname}/${encoded}?action=defaultPreview`);
+    };
+
     onChangeSearchText = e => {
         this.setState({searchText: e.target.value});
     };
@@ -99,6 +112,7 @@ class Campaigns extends Component {
 
     render() {
         const {classes} = this.props;
+        const {user} = this.props.auth;
         const {searchText} = this.state;
 
         return (
@@ -140,26 +154,26 @@ class Campaigns extends Component {
                     </Grid>
                     <Grid item xs={12} md={6} lg={4}>
                         <Typography className={classes.titles} variant={'subtitle1'}>
-                            Briefing for 6:00AM
+                            Briefing for 6:00 AM
                         </Typography>
-                        <AccountTablesFor6 onClick={this.onClick} searchText={searchText}/>
+                        <AccountTablesForArchintel time={6} onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
                         <Typography className={classes.titles} variant={'subtitle1'}>
-                            Briefing for 9:00AM
+                            Briefing for 9:00 AM
                         </Typography>
-                        <AccountTablesFor9 onClick={this.onClick} searchText={searchText}/>
+                        <AccountTablesForArchintel time={9} onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4}>
                         <Typography className={classes.titles} variant={'subtitle1'}>
-                            Briefing for 7:00AM
+                            Briefing for 7:00 AM
                         </Typography>
-                        <AccountTablesFor7 onClick={this.onClick} searchText={searchText}/>
+                        <AccountTablesForArchintel time={7} onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
                     </Grid>
-                    {/*<Grid item xs={12} md={6} lg={4}>*/}
-                        {/*<Typography className={classes.titles} variant={'subtitle1'}>*/}
-                            {/*Traditional List*/}
-                        {/*</Typography>*/}
-                        {/*<AccountTablesForTrad onClick={this.onClick} searchText={searchText}/>*/}
-                    {/*</Grid>*/}
+                    {isUserAllowedComponent(<Grid item xs={12} md={6} lg={4}>
+                        <Typography className={classes.titles} variant={'subtitle1'}>
+                            Traditional Accounts
+                        </Typography>
+                        <AccountTablesForTrad onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
+                    </Grid>, user, 'admin')}
                 </Grid>
             </React.Fragment>
         )
@@ -167,7 +181,12 @@ class Campaigns extends Component {
 }
 
 Campaigns.propTypes = {
+    auth: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Campaigns);
+const mapStateToProps = state => ({
+    auth: state.auth,
+});
+
+export default connect(mapStateToProps, {})(withStyles(styles)(Campaigns));

@@ -257,49 +257,50 @@ class Navigation extends Component {
     };
 
     render() {
+        const {user} = this.props.auth;
         const {classes, uiTheme, loading, children} = this.props;
         const {open, anchorEl, index} = this.state;
 
         const apps = (<div>
             {/*<Fab*/}
-                {/*variant="extended"*/}
-                {/*size="small"*/}
-                {/*color="primary"*/}
-                {/*aria-label="Add"*/}
-                {/*className={classes.fab}*/}
-                {/*aria-owns={open ? 'menu-appbar' : undefined}*/}
-                {/*aria-haspopup="true"*/}
-                {/*onClick={this.handleMenuOpen}*/}
+            {/*variant="extended"*/}
+            {/*size="small"*/}
+            {/*color="primary"*/}
+            {/*aria-label="Add"*/}
+            {/*className={classes.fab}*/}
+            {/*aria-owns={open ? 'menu-appbar' : undefined}*/}
+            {/*aria-haspopup="true"*/}
+            {/*onClick={this.handleMenuOpen}*/}
             {/*>*/}
-                {/*<PersonAdd className={classes.addIcon} style={{fontSize: 20}}/>*/}
-                {/*Quick Add*/}
+            {/*<PersonAdd className={classes.addIcon} style={{fontSize: 20}}/>*/}
+            {/*Quick Add*/}
             {/*</Fab>*/}
             {/*<Menu*/}
-                {/*id="menu-appbar"*/}
-                {/*className={classes.menu}*/}
-                {/*anchorEl={anchorEl}*/}
-                {/*getContentAnchorEl={null}*/}
-                {/*anchorOrigin={{*/}
-                    {/*vertical: 'bottom',*/}
-                    {/*horizontal: 'right',*/}
-                {/*}}*/}
-                {/*transformOrigin={{*/}
-                    {/*vertical: 'top',*/}
-                    {/*horizontal: 'right',*/}
-                {/*}}*/}
-                {/*open={anchorEl}*/}
-                {/*onClose={this.handleMenuClose}*/}
+            {/*id="menu-appbar"*/}
+            {/*className={classes.menu}*/}
+            {/*anchorEl={anchorEl}*/}
+            {/*getContentAnchorEl={null}*/}
+            {/*anchorOrigin={{*/}
+            {/*vertical: 'bottom',*/}
+            {/*horizontal: 'right',*/}
+            {/*}}*/}
+            {/*transformOrigin={{*/}
+            {/*vertical: 'top',*/}
+            {/*horizontal: 'right',*/}
+            {/*}}*/}
+            {/*open={anchorEl}*/}
+            {/*onClose={this.handleMenuClose}*/}
             {/*>*/}
-                {/*<MenuItem>Profile</MenuItem>*/}
-                {/*<Divider/>*/}
-                {/*<MenuItem onClick={this.props.handleChangeTheme}>*/}
-                    {/*Dark Mode&nbsp;&nbsp;*/}
-                    {/*<IOSSwitch*/}
-                        {/*checked={uiTheme === 'dark'}*/}
-                        {/*onChange={this.props.handleChangeTheme}*/}
-                    {/*/>*/}
-                {/*</MenuItem>*/}
-                {/*<MenuItem onClick={this.props.logoutUser}>Logout</MenuItem>*/}
+            {/*<MenuItem>Profile</MenuItem>*/}
+            {/*<Divider/>*/}
+            {/*<MenuItem onClick={this.props.handleChangeTheme}>*/}
+            {/*Dark Mode&nbsp;&nbsp;*/}
+            {/*<IOSSwitch*/}
+            {/*checked={uiTheme === 'dark'}*/}
+            {/*onChange={this.props.handleChangeTheme}*/}
+            {/*/>*/}
+            {/*</MenuItem>*/}
+            {/*<MenuItem onClick={this.props.logoutUser}>Logout</MenuItem>*/}
             {/*</Menu>*/}
             <IconButton
                 aria-owns={open ? 'menu-appbar' : undefined}
@@ -390,7 +391,7 @@ class Navigation extends Component {
                                         color="inherit" noWrap>
                                 MAIN
                             </Typography>
-                            <MainListItems onClick={!open ? this.handleDrawerBufferClick.bind(this) : this.handleDrawerClose} selected={index}/>
+                            <MainListItems onClick={!open ? this.handleDrawerBufferClick.bind(this) : this.handleDrawerClose} selected={index} user={user}/>
                         </Drawer>
                         <main
                             className={clsx(classes.contentM, {
@@ -448,7 +449,7 @@ class Navigation extends Component {
                                         color="inherit" noWrap>
                                 MAIN
                             </Typography>
-                            <MainListItems onClick={this.handleSelectMenu.bind(this)} selected={index}/>
+                            <MainListItems onClick={this.handleSelectMenu.bind(this)} selected={index} user={user}/>
                         </Drawer>
                         <main className={clsx(classes.content, {
                             [classes.contentLoading]: loading.buffer,
@@ -472,6 +473,7 @@ Navigation.propTypes = {
 };
 
 const mapStateToProps = state => ({
+    auth: state.auth,
     loading: state.loading,
     settings: state.settings
 });

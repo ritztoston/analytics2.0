@@ -3,9 +3,10 @@ import Email from '@material-ui/icons/Email';
 import Person from '@material-ui/icons/Person';
 import React from "react";
 
+const is_staff = true, user = false;
+
 export const navList = [
-    // {name: 'dashboard', icon: <DashboardIcon/>},
-    // {name: 'preview', icon: <Visibility/>},
-    {name: 'campaigns', icon: <Email/>},
-    {name: 'subscribers', icon: <Person/>},
+    {name: 'dashboard', icon: <DashboardIcon/>, is_staff, user: true},
+    {name: 'campaigns', icon: <Email/>, is_staff, user},
+    {name: 'subscribers', icon: <Person/>, is_staff: false, user},
 ];

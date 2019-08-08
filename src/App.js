@@ -78,13 +78,15 @@ class App extends Component {
                         <Switch>
                             <Route exact path="/" component={Login}/>
                             <Route exact path="/login" component={Login}/>
-                            <PrivateRoute exact path="/dashboard" component={Dashboard} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
-                            <PrivateRoute exact path="/campaigns" component={Campaigns} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
-                            <PrivateRoute exact path="/campaigns/:account" component={CampaignDetails} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
-                            <PrivateRoute exact path="/campaigns/:account/:id" component={CampaignSoloDetails} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
-                            <PrivateRoute exact path="/subscribers" component={Subscribers} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
-                            <PrivateRoute exact path="/subscribers/:account" component={SubscribersDetails} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
-                            <PrivateRoute exact path="/subscribers/:account/:id" component={SubscriberMemberDetails} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
+                            <PrivateRoute exact path="/dashboard" component={Dashboard} is_staff={true} is_user={true} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
+                            {/*Campaigns Tab*/}
+                            <PrivateRoute exact path="/campaigns" component={Campaigns} is_staff={true} is_user={false} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
+                            <PrivateRoute exact path="/campaigns/:account" component={CampaignDetails} is_staff={true} is_user={false} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
+                            <PrivateRoute exact path="/campaigns/:account/:id" component={CampaignSoloDetails} is_staff={true} is_user={false} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
+                            {/*Subscribers Tab*/}
+                            <PrivateRoute exact path="/subscribers" component={Subscribers} is_staff={false} is_user={false} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
+                            <PrivateRoute exact path="/subscribers/:account" component={SubscribersDetails} is_staff={false} is_user={false} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
+                            <PrivateRoute exact path="/subscribers/:account/:id" component={SubscriberMemberDetails} is_staff={false} is_user={false} handleChangeTheme={this.handleChangeTheme} uiTheme={theme.palette.type}/>
                             <Route component={NotFound} />
                         </Switch>
                     </Router>

@@ -115,6 +115,32 @@ export const getPreviewCampaignData = (account, id) => async dispatch => {
     }
 };
 
+export const getDefaultPreviewCampaignData = account => async dispatch => {
+    try {
+        dispatch(clearCampaigns());
+
+        dispatch(setLoadingTrueWMessage('Retrieving template. Loading...'));
+        const template = await axios.get(`http://www.analyticsapi.salesrobot.com/${account}/messages/rss/preview/template`);
+        const feedTemplate = await axios.get(`http://www.analyticsapi.salesrobot.com/${account}/messages/rss/preview/template/feed`);
+        dispatch(setLoadingTrueWMessage('Fetching feed. Please wait...'));
+        const rssData = await axios.get(`http://www.analyticsapi.salesrobot.com/${account}/messages/rss/preview/data`);
+        if(!isEmpty(rssData.data)) dispatch(setLoadingTrueWMessage('Fetch complete. Loaded RSS'));
+        else dispatch(setLoadingTrueWMessage('Fetch failed. No RSS found'));
+        const index = await axios.get(`http://www.analyticsapi.salesrobot.com/${account}/messages/rss/preview/index`);
+
+
+        dispatch(renderTemplate(template));
+        dispatch(renderFeedTemplate(feedTemplate));
+        dispatch(renderIndex(index));
+        dispatch(renderData(rssData));
+
+        dispatch(setLoadingFalse());
+    } catch (err) {
+        dispatch(setErrors(err));
+        dispatch(setLoadingFalse());
+    }
+};
+
 export const getNewCampaignData = (account, id) => async dispatch => {
     try {
         dispatch(clearCampaigns());
