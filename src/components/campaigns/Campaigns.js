@@ -157,10 +157,6 @@ class Campaigns extends Component {
                             Briefing for 6:00 AM
                         </Typography>
                         <AccountTablesForArchintel time={6} onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
-                        <Typography className={classes.titles} variant={'subtitle1'}>
-                            Briefing for 9:00 AM
-                        </Typography>
-                        <AccountTablesForArchintel time={9} onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4}>
                         <Typography className={classes.titles} variant={'subtitle1'}>
@@ -168,12 +164,22 @@ class Campaigns extends Component {
                         </Typography>
                         <AccountTablesForArchintel time={7} onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
                     </Grid>
-                    {isUserAllowedComponent(<Grid item xs={12} md={6} lg={4}>
+                    <Grid item xs={12} md={6} lg={4}>
                         <Typography className={classes.titles} variant={'subtitle1'}>
-                            Traditional Accounts
+                            Briefing for 9:00 AM
                         </Typography>
-                        <AccountTablesForTrad onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
-                    </Grid>, user, 'admin')}
+                        <AccountTablesForArchintel time={9} onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
+                        <Typography className={classes.titles} variant={'subtitle1'}>
+                            Briefing for 12:00 AM
+                        </Typography>
+                        <AccountTablesForArchintel time={12} onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
+                        {isUserAllowedComponent(<React.Fragment>
+                                <Typography className={classes.titles} variant={'subtitle1'}>
+                                    Traditional Accounts
+                                </Typography>
+                                <AccountTablesForTrad onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
+                            </React.Fragment>, user, 'admin')}
+                    </Grid>
                 </Grid>
             </React.Fragment>
         )

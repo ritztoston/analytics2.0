@@ -5,21 +5,20 @@ import rootReducer from './reducers'
 const initialState = {};
 
 const middleware = [thunk];
-// dev
-// const composeEnhancers = null || compose;
+const composeEnhancers = null || compose;
 
 const store = createStore(
     rootReducer,
     initialState,
 
     //dev
-    compose(
-        applyMiddleware(...middleware),
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-    )
+    // compose(
+    //     applyMiddleware(...middleware),
+    //     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    // )
 
     //prod
-    // composeEnhancers(applyMiddleware(...middleware))
+    composeEnhancers(applyMiddleware(...middleware))
 );
 
 export default store;

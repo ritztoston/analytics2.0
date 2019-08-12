@@ -287,9 +287,9 @@ class Dashboard extends Component {
                                                 <ListItem className={classes.listItem} button>
                                                     <ListItemText primary="Edit"/>
                                                 </ListItem>
-                                                <ListItem className={classes.listItem} button onClick={this.onClickRefetch}>
+                                                {action !== defaultPreview && tab === 'draft' && <ListItem className={classes.listItem} button onClick={this.onClickRefetch}>
                                                     <ListItemText primary="Fetch New Data" />
-                                                </ListItem>
+                                                </ListItem>}
                                                 {action !== defaultPreview && tab === 'draft' && <ListItem className={classes.listItem} button>
                                                     <ListItemText primary="Send" onClick={this.openSendDialog}/>
                                                 </ListItem>}

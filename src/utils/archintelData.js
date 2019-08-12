@@ -8,9 +8,9 @@ function createData(account, shorten, teamLead, sched, time, status) {
 const data = [
     createData('AECOM', 'aecom', 'Gigi Melecio', 'Monday - Friday',6, 'Active'),
     createData('Leidos', 'leidos', 'Jhoanna Valdez', 'Monday - Friday',6, 'Active'),
-    createData('SOS International', 'sosi', 'Gigi Melecio', 'Monday - Friday',6, 'Active'),
     createData('KBR', 'kbr', 'Marc Mondala', 'Monday - Friday',6, 'Internal Testing'),
-    createData('GD Mission Systems', 'gdms', 'Anna Mondala', 'Monday - Friday',6, 'Internal Testing'),
+    createData('UMUC Ventures', 'ventures', 'Anna Mondala', 'Monday - Friday',6, 'Active'),
+    createData('GD Mission Systems', 'gdms', 'Anna Mondala', 'Monday - Friday',6, 'Active'),
 
     createData('Peraton', 'peraton', 'Gigi Melecio', 'Monday - Friday',7, 'Active'),
     createData('Raytheon', 'raytheon', 'Ray Santos', 'Monday - Friday',7, 'Active'),
@@ -22,6 +22,8 @@ const data = [
 
     // createData('Perspecta', 'perspecta', 'Ray Santos', 'Monday - Friday',9, 'Active'),
     createData('George Washington University', 'george', 'Marc Mondala', 'Friday Only',9, 'Active'),
+
+    createData('SOS International', 'sosi', 'Gigi Melecio', 'Monday - Friday',12, 'Active'),
 ];
 
 export default data;
