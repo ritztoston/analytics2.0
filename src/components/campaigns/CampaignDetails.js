@@ -209,7 +209,7 @@ class CampaignDetails extends Component {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button color="primary" onClick={this.closePauseModal}>
+                    <Button color="secondary" onClick={this.closePauseModal}>
                         Disagree
                     </Button>
                     <Button color="primary" autoFocus onClick={this.getMessagePaused}>

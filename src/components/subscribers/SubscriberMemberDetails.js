@@ -87,7 +87,7 @@ class Dashboard extends Component {
             selectedEmails: [],
             shorten: '',
             name: '',
-            rowsPerPage: 15,
+            rowsPerPage: 50,
             page: 0,
             searchText: '',
             selected: null,

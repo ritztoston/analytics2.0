@@ -231,6 +231,9 @@ class Dashboard extends Component {
         const {action, tab} = queryString.parse(this.props.location.search);
         const defaultPreview = 'defaultPreview';
 
+        console.log(tab)
+        console.log(action)
+
         const sendDialog = (<Dialog
             open={isOpenSendDialog}
             onClose={this.closeSendDialog}
@@ -287,10 +290,10 @@ class Dashboard extends Component {
                                                 <ListItem className={classes.listItem} button>
                                                     <ListItemText primary="Edit"/>
                                                 </ListItem>
-                                                {action !== defaultPreview && tab === 'draft' && <ListItem className={classes.listItem} button onClick={this.onClickRefetch}>
+                                                {action !== 'defaultPreview' && <ListItem className={classes.listItem} button onClick={this.onClickRefetch}>
                                                     <ListItemText primary="Fetch New Data" />
                                                 </ListItem>}
-                                                {action !== defaultPreview && tab === 'draft' && <ListItem className={classes.listItem} button>
+                                                {action !== 'defaultPreview' && tab !== 'active' && <ListItem className={classes.listItem} button>
                                                     <ListItemText primary="Send" onClick={this.openSendDialog}/>
                                                 </ListItem>}
                                             </List>

@@ -121,7 +121,7 @@ const AccountTablesForTrad = props => {
                     <TableRow className={classes.tableRowPagination}>
                         <TablePagination
                             className={classes.tablePagination}
-                            rowsPerPageOptions={[5, 10, 15]}
+                            rowsPerPageOptions={[25, 50, 100, 150, 200]}
                             colSpan={4}
                             count={data.count}
                             rowsPerPage={rowsPerPage}
