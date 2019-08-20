@@ -10,6 +10,7 @@ const data = [
     createData('Leidos', 'leidos', 'Jhoanna Valdez', 'Monday - Friday',6, 'Active'),
     createData('KBR', 'kbr', 'Marc Mondala', 'Monday - Friday',6, 'Internal Testing'),
     createData('UMUC Ventures', 'ventures', 'Anna Mondala', 'Monday - Friday',6, 'Active'),
+    createData('Unisys', 'unisys', 'Anna Mondala', 'Monday - Friday',6, 'Active'),
     createData('GD Mission Systems', 'gdms', 'Anna Mondala', 'Monday - Friday',6, 'Active'),
 
     createData('Peraton', 'peraton', 'Gigi Melecio', 'Monday - Friday',7, 'Active'),

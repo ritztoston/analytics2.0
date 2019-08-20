@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {withStyles} from "@material-ui/core";
 import PropTypes from "prop-types";
-import PersonIcon from '@material-ui/icons/Person';
 import {Helmet} from "react-helmet";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -12,12 +11,17 @@ import isEmpty from "../../validations/isEmpty";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
+import Divider from "@material-ui/core/Divider";
 
-const styles = theme => ({
+const styles = ({
     icon: {
         marginRight: 5,
         fontSize: 35,
     },
+    subDetails: {
+        paddingLeft: 15,
+        paddingRight: 15,
+    }
 });
 
 class Dashboard extends Component {
@@ -54,7 +58,7 @@ class Dashboard extends Component {
 
     render() {
         const {shorten, account} = this.state;
-        const {subscribers} = this.props;
+        const {classes, subscribers} = this.props;
 
         return (
             <React.Fragment>
@@ -71,24 +75,88 @@ class Dashboard extends Component {
                         </Typography>
                     </Grid>
                     {!isEmpty(subscribers.subscribersList) && subscribers.subscribersList.map(n => (
-                        <Grid item xs={12} sm={6} md={4} lg={3} key={n.id}>
+                        <Grid item xs={6} sm={3} md={2} lg={2} key={n.id}>
                             <Card>
                                 <CardActionArea onClick={() => this.onClickCard(n.id, n.name, account, shorten)}>
                                     <CardContent>
                                         <Grid container direction="row" alignItems="center">
-                                            <Grid xs={7} item>
-                                                <Typography variant="h6">
-                                                    {n.name}
-                                                </Typography>
+                                            <Grid xs={12} item style={{marginBottom: 25}}>
+                                                <Grid container direction="row" alignItems="center" justify="center">
+                                                    <Grid item>
+                                                        <Typography variant="h6">
+                                                            {n.name}
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
                                             </Grid>
-                                            <Grid xs={5} item>
+                                            <Grid xs={6} item>
+                                                <Grid container direction="row" alignItems="center" justify="flex-start">
+                                                    <Grid item>
+                                                        <Typography className={classes.subDetails}>
+                                                            Subscribers:
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid xs={6} item>
                                                 <Grid container direction="row" alignItems="center" justify="flex-end">
                                                     <Grid item>
-                                                        <PersonIcon color="primary"/>
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Typography color="primary" guterBottom variant="h5" component="h2">
+                                                        <Typography color="primary" className={classes.subDetails}>
                                                             {n.subscribers.toLocaleString()}
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid xs={6} item>
+                                                <Grid container direction="row" alignItems="center" justify="flex-start">
+                                                    <Grid item>
+                                                        <Typography className={classes.subDetails}>
+                                                            Confirmed:
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid xs={6} item>
+                                                <Grid container direction="row" alignItems="center" justify="flex-end">
+                                                    <Grid item>
+                                                        <Typography color="primary" className={classes.subDetails}>
+                                                            {n.confirmed.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid xs={6} item>
+                                                <Grid container direction="row" alignItems="center" justify="flex-start">
+                                                    <Grid item>
+                                                        <Typography className={classes.subDetails}>
+                                                            Unconfirmed:
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid xs={6} item>
+                                                <Grid container direction="row" alignItems="center" justify="flex-end">
+                                                    <Grid item>
+                                                        <Typography color="primary" className={classes.subDetails}>
+                                                            {n.unconfirmed.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid xs={6} item>
+                                                <Grid container direction="row" alignItems="center" justify="flex-start">
+                                                    <Grid item>
+                                                        <Typography className={classes.subDetails}>
+                                                            Blacklisted:
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid xs={6} item>
+                                                <Grid container direction="row" alignItems="center" justify="flex-end">
+                                                    <Grid item>
+                                                        <Typography color="primary" className={classes.subDetails}>
+                                                            {n.blacklisted.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}
                                                         </Typography>
                                                     </Grid>
                                                 </Grid>
