@@ -11,7 +11,6 @@ import isEmpty from "../../validations/isEmpty";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import Divider from "@material-ui/core/Divider";
 
 const styles = ({
     icon: {

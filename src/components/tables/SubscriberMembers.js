@@ -69,6 +69,9 @@ const AccountTablesForTrad = props => {
                         <Typography>{n.email}</Typography>
                     </TableCell>
                     <TableCell>
+                        {n.bouncecount}
+                    </TableCell>
+                    <TableCell>
                         {n.blacklisted === 1 ? (<Typography color="secondary" className={classes.typography}>Blacklisted</Typography>) : n.confirmed === 1 ? (<Typography color="textSecondary" className={classes.typography}>Confirmed</Typography>) : (<Typography color="secondary" className={classes.typography}>Unconfirmed</Typography>)}
                     </TableCell>
                     <TableCell align="right">
@@ -106,6 +109,9 @@ const AccountTablesForTrad = props => {
                                 </TableCell>
                                 <TableCell component="th" scope="row">
                                     <Typography>{n.email}</Typography>
+                                </TableCell>
+                                <TableCell>
+                                    {n.bouncecount}
                                 </TableCell>
                                 <TableCell>
                                     {n.blacklisted === 1 ? (<Typography color="secondary" className={classes.typography}>Blacklisted</Typography>) : n.confirmed === 1 ? (<Typography color="textSecondary" className={classes.typography}>Confirmed</Typography>) : (<Typography color="secondary" className={classes.typography}>Unconfirmed</Typography>)}

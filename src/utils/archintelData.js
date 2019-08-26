@@ -12,6 +12,8 @@ const data = [
     createData('UMUC Ventures', 'ventures', 'Anna Mondala', 'Monday - Friday',6, 'Active'),
     createData('Unisys', 'unisys', 'Anna Mondala', 'Monday - Friday',6, 'Active'),
     createData('GD Mission Systems', 'gdms', 'Anna Mondala', 'Monday - Friday',6, 'Active'),
+    createData('Vectrus', 'vectrus', 'Ray Santos', 'Monday - Friday',6, 'Active'),
+    createData('ASRC Federal', 'asrc', 'Anna Mondala', 'Monday - Friday',6, 'Active'),
 
     createData('Peraton', 'peraton', 'Gigi Melecio', 'Monday - Friday',7, 'Active'),
     createData('Raytheon', 'raytheon', 'Ray Santos', 'Monday - Friday',7, 'Active'),
