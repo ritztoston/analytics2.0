@@ -111,7 +111,7 @@ class Campaigns extends Component {
     };
 
     render() {
-        const {classes} = this.props;
+        const {classes, theme} = this.props;
         const {user} = this.props.auth;
         const {searchText} = this.state;
 
@@ -156,23 +156,23 @@ class Campaigns extends Component {
                         <Typography className={classes.titles} variant={'subtitle1'}>
                             Briefing for 6:00 AM
                         </Typography>
-                        <AccountTablesForArchintel time={6} onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
+                        <AccountTablesForArchintel theme={theme} time={6} onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4}>
                         <Typography className={classes.titles} variant={'subtitle1'}>
                             Briefing for 7:00 AM
                         </Typography>
-                        <AccountTablesForArchintel time={7} onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
+                        <AccountTablesForArchintel theme={theme} time={7} onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4}>
                         <Typography className={classes.titles} variant={'subtitle1'}>
                             Briefing for 9:00 AM
                         </Typography>
-                        <AccountTablesForArchintel time={9} onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
+                        <AccountTablesForArchintel theme={theme} time={9} onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
                         <Typography className={classes.titles} variant={'subtitle1'}>
                             Briefing for 12:00 AM
                         </Typography>
-                        <AccountTablesForArchintel time={12} onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
+                        <AccountTablesForArchintel theme={theme} time={12} onClick={this.onClick} searchText={searchText} clickPreview={this.clickPreview}/>
                         {isUserAllowedComponent(<React.Fragment>
                                 <Typography className={classes.titles} variant={'subtitle1'}>
                                     Traditional Accounts
@@ -195,4 +195,4 @@ const mapStateToProps = state => ({
     auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(withStyles(styles)(Campaigns));
+export default connect(mapStateToProps, {})(withStyles(styles, {withTheme: true})(Campaigns));

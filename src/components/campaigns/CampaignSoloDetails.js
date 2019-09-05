@@ -231,9 +231,6 @@ class Dashboard extends Component {
         const {action, tab} = queryString.parse(this.props.location.search);
         const defaultPreview = 'defaultPreview';
 
-        console.log(tab)
-        console.log(action)
-
         const sendDialog = (<Dialog
             open={isOpenSendDialog}
             onClose={this.closeSendDialog}

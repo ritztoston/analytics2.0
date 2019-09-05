@@ -10,8 +10,8 @@ import Typography from "@material-ui/core/Typography";
 import isEmpty from "../../validations/isEmpty";
 import Tooltip from "@material-ui/core/Tooltip";
 import Button from "@material-ui/core/Button";
-import SearchIcon from '@material-ui/icons/Search';
 import data from "../../utils/archintelData";
+import SearchIcon from '@material-ui/icons/Search';
 
 const styles = theme => ({
     root: {
@@ -33,10 +33,15 @@ const styles = theme => ({
         paddingBottom: 30,
         paddingLeft: 20,
     },
+    button: {
+        fontWeight: 600,
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
+    },
 });
 
 const AccountTablesForArchintel = props => {
-    const {classes, searchText, time} = props;
+    const {classes, searchText, time, theme} = props;
 
     const content1 = (data.filter(n => {
         return n.time === time
@@ -47,12 +52,13 @@ const AccountTablesForArchintel = props => {
                     <Typography color="primary">{n.account}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.sched}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.teamLead}</Typography>
-                    <Typography className={classes.subtitles} variant="subtitle2">{n.status}</Typography>
+                    {/*<Typography className={classes.subtitles} variant="subtitle2">{n.status}</Typography>*/}
                 </TableCell>
                 <TableCell align="right">
                     <Tooltip title="Preview Template" placement="top">
-                        <Button variant="contained" color="primary" className={classes.button} onClick={props.clickPreview(n.shorten, n.account, n.sched, n.time, n.status)}>
-                            <SearchIcon className={classes.searchIcon} />
+                        <Button variant="contained" style={theme.palette.defaultBackgroundColor} className={classes.button} onClick={props.clickPreview(n.shorten, n.account, n.sched, n.time, n.status)}>
+                            <SearchIcon/>
+                            Preview
                         </Button>
                     </Tooltip>
                 </TableCell>
@@ -70,12 +76,12 @@ const AccountTablesForArchintel = props => {
                     <Typography color="primary">{n.account}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.sched}</Typography>
                     <Typography className={classes.subtitles} variant="subtitle2">{n.teamLead}</Typography>
-                    <Typography className={classes.subtitles} variant="subtitle2">{n.status}</Typography>
+                    {/*<Typography className={classes.subtitles} variant="subtitle2">{n.status}</Typography>*/}
                 </TableCell>
                 <TableCell align="right">
                     <Tooltip title="Preview Template" placement="top">
                         <Button variant="contained" color="primary" className={classes.button} onClick={props.clickPreview(n.shorten, n.account, n.sched, n.time, n.status)}>
-                            <SearchIcon className={classes.searchIcon} />
+                            Preview
                         </Button>
                     </Tooltip>
                 </TableCell>

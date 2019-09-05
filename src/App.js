@@ -34,6 +34,12 @@ class App extends Component {
                         contrastText: '#fff',
                     },
                     secondary: red,
+                    defaultBackgroundColor: {backgroundColor: '#FBEECA'},
+                    defaultColor: {color: '#FBEECA'},
+                    defaultPrimaryBackgroundColor: {backgroundColor: '#FFEE93'},
+                    defaultPrimaryColor: {color: '#FFEE93'},
+                    defaultSecondaryBackgroundColor: {backgroundColor: '#FFE74C'},
+                    defaultSecondaryColor: {color: '#FFE74C'},
                     type: !isEmpty(uiTheme) ? uiTheme : 'light',
                 },
                 typography: {

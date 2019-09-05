@@ -13,7 +13,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
 import {fade} from "@material-ui/core/styles";
 import SubscribersArchintelTables from "../tables/SubscribersArchintelTables";
-import SubscribersTradTables from "../tables/SubscribersTradTables";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import List from "@material-ui/core/List";
@@ -33,6 +32,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import AddIcon from '@material-ui/icons/Add';
 import {withSnackbar} from "notistack";
 import {encode} from "../../utils/SetBase64";
+import SubscribersTradTables from "../tables/SubscribersTradTables";
 
 const styles = theme => ({
     paper: {
@@ -91,6 +91,7 @@ const styles = theme => ({
         textAlign: "center",
     },
 });
+
 
 class Subscribers extends Component {
     constructor(props){
@@ -286,35 +287,17 @@ class Subscribers extends Component {
                             </div>
                         </Paper>
                     </Grid>
-                    <Grid item xs={12} sm={6} md={6} lg={4}>
-                        <Typography className={classes.titles} variant={'subtitle1'}>
-                            Traditional List
-                        </Typography>
-                        <SubscribersTradTables onClick={this.onClick} quickAdd={this.quickAdd} searchText={searchText}/>
+                    <Grid item xs={6}>
                         <Typography className={classes.titles} variant={'subtitle1'}>
                             ArchIntel Account List
                         </Typography>
-                        <SubscribersArchintelTables onClick={this.onClick} quickAdd={this.quickAdd} searchText={searchText}/>
+                        <SubscribersArchintelTables theme={this.props.theme} onClick={this.onClick} quickAdd={this.quickAdd} searchText={searchText}/>
                     </Grid>
-                    <Grid item xs={12} sm={6} md={6} lg={4}>
+                    <Grid item xs={6}>
                         <Typography className={classes.titles} variant={'subtitle1'}>
-                            Lorem ipsum dolor sit amet
+                            ArchIntel Account List
                         </Typography>
-                        <Paper className={classes.paper}>
-                            <Typography>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam assumenda autem commodi consectetur consequatur consequuntur cumque dolore earum error esse est exercitationem explicabo fuga in incidunt inventore laborum laudantium, magnam maiores minima mollitia necessitatibus nemo nostrum officiis porro praesentium provident quas quasi quidem rem rerum sed sint suscipit ut, vel veritatis vero! Amet, aspernatur corporis debitis dolor enim error est explicabo fugiat impedit in inventore laboriosam nam perferendis quae saepe sapiente similique! Dolores fuga laudantium nobis quasi ratione sunt tempore veritatis vero. Ad adipisci aperiam assumenda aut blanditiis delectus deleniti deserunt dolore dolorum ea enim eos est excepturi exercitationem fugit id iste magnam, maxime minima molestiae natus necessitatibus nisi nobis nulla obcaecati odit officia porro provident, quam quia quidem quod rem reprehenderit tempora ullam veniam voluptatum. Dolorem in perspiciatis ratione! A aliquam commodi consectetur cumque, cupiditate dicta dolores, eius eum, fugit incidunt labore laborum nemo neque nihil nostrum officia officiis optio perferendis perspiciatis provident quia quibusdam quis quisquam quos rem saepe sed similique temporibus tenetur totam ut vel veritatis voluptatum! Consectetur magnam omnis ut. Aliquid consequuntur cupiditate deserunt excepturi expedita facere ipsum mollitia non numquam tempora. Eum facilis hic itaque mollitia necessitatibus odio, quia repellat sequi voluptatem. Aperiam dicta, nam.
-                            </Typography>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={6} lg={4}>
-                        <Typography className={classes.titles} variant={'subtitle1'}>
-                            Lorem ipsum dolor sit amet
-                        </Typography>
-                        <Paper className={classes.paper}>
-                            <Typography>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam assumenda autem commodi consectetur consequatur consequuntur cumque dolore earum error esse est exercitationem explicabo fuga in incidunt inventore laborum laudantium, magnam maiores minima mollitia necessitatibus nemo nostrum officiis porro praesentium provident quas quasi quidem rem rerum sed sint suscipit ut, vel veritatis vero! Amet, aspernatur corporis debitis dolor enim error est explicabo fugiat impedit in inventore laboriosam nam perferendis quae saepe sapiente similique! Dolores fuga laudantium nobis quasi ratione sunt tempore veritatis vero. Ad adipisci aperiam assumenda aut blanditiis delectus deleniti deserunt dolore dolorum ea enim eos est excepturi exercitationem fugit id iste magnam, maxime minima molestiae natus necessitatibus nisi nobis nulla obcaecati odit officia porro provident, quam quia quidem quod rem reprehenderit tempora ullam veniam voluptatum. Dolorem in perspiciatis ratione! A aliquam commodi consectetur cumque, cupiditate dicta dolores, eius eum, fugit incidunt labore laborum nemo neque nihil nostrum officia officiis optio perferendis perspiciatis provident quia quibusdam quis quisquam quos rem saepe sed similique temporibus tenetur totam ut vel veritatis voluptatum! Consectetur magnam omnis ut. Aliquid consequuntur cupiditate deserunt excepturi expedita facere ipsum mollitia non numquam tempora. Eum facilis hic itaque mollitia necessitatibus odio, quia repellat sequi voluptatem. Aperiam dicta, nam.
-                            </Typography>
-                        </Paper>
+                        <SubscribersTradTables theme={this.props.theme} onClick={this.onClick} quickAdd={this.quickAdd} searchText={searchText}/>
                     </Grid>
                 </Grid>
             </React.Fragment>
@@ -324,6 +307,7 @@ class Subscribers extends Component {
 
 Subscribers.propTypes = {
     classes: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired,
     loading: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
     getSubscribersList: PropTypes.func.isRequired,
@@ -336,4 +320,4 @@ const mapStateToProps = state => ({
     errors: state.errors,
 });
 
-export default connect(mapStateToProps, {getSubscribersList, addSubscribers})(withStyles(styles)(withSnackbar(Subscribers)));
+export default connect(mapStateToProps, {getSubscribersList, addSubscribers})(withStyles(styles, {withTheme: true})(withSnackbar(Subscribers)));
