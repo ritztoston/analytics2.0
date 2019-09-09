@@ -43,32 +43,26 @@ const SubscribersArchintelTables = props => {
         return (
             <Grid item xs={6} sm={4} md={4} lg={4} key={n.id}>
                 <Card>
-                    <CardContent>
-                        <Grid spacing={1} container direction="row">
-                            <Grid xs={12} item style={{marginBottom: 25}}>
-                                <Grid container direction="row" justify="center">
-                                    <Grid item>
-                                        <Typography variant="h6" noWrap>
-                                            {n.account}
-                                        </Typography>
+                    <CardActionArea onClick={() => props.onClick(n.shorten, n.account)}>
+                        <CardContent>
+                            <Grid spacing={1} container direction="row">
+                                <Grid xs={12} item style={{marginBottom: 25}}>
+                                    <Grid container direction="row" justify="center">
+                                        <Grid item>
+                                            <Typography variant="h6" noWrap>
+                                                {n.account}
+                                            </Typography>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
-                            </Grid>
-                            <Grid xs={6} item>
-                                <CardActionArea onClick={() => props.onClick(n.shorten, n.account)}>
-                                    <Button className={classes.button} fullWidth style={{color: theme.palette.primary.main}}>
-                                        <EditIcon/>
-                                        Edit
+                                <Grid xs={12} item>
+                                    <Button className={classes.button} fullWidth variant="contained" style={theme.palette.defaultBackgroundColor} onClick={props.quickAdd(n.account, n.shorten)}>
+                                        Quick Add
                                     </Button>
-                                </CardActionArea>
+                                </Grid>
                             </Grid>
-                            <Grid xs={6} item>
-                                <Button className={classes.button} fullWidth variant="contained" style={theme.palette.defaultBackgroundColor} onClick={props.quickAdd(n.account, n.shorten)}>
-                                    Quick Add
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </CardContent>
+                        </CardContent>
+                    </CardActionArea>
                 </Card>
             </Grid>
         );
