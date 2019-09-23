@@ -16,6 +16,7 @@ const data = [
     createData('GD Mission Systems', 'gdms', 'Anna Mondala', 'Monday - Friday',6, 'Active'),
     createData('ASRC Federal', 'asrc', 'Anna Mondala', 'Monday - Friday',6, 'Active'),
     createData('Vectrus', 'vectrus', 'Ray Santos', 'Monday - Friday',6, 'Active'),
+    // createData('Battelle', 'battelle', 'Jhoanna Valdez', 'Monday - Friday',6, 'Active'),
     createData('FedEx Forward Depots', 'fedex', 'Jhoanna Valdez', 'Monday - Friday',6, 'Active'),
 
     createData('Peraton', 'peraton', 'Gigi Melecio', 'Monday - Friday',7, 'Active'),
@@ -27,6 +28,7 @@ const data = [
     createData('L3 Harris', 'harris', 'Marc Mondala', 'Monday - Friday',7, 'Internal Testing'),
 
     // createData('Perspecta', 'perspecta', 'Ray Santos', 'Monday - Friday',9, 'Active'),
+    createData('Walbro', 'walbro', 'Gigi Melecio', 'Monday - Friday',9, 'Active'),
     createData('George Washington University', 'george', 'Marc Mondala', 'Friday Only',9, 'Active'),
 
     createData('SOS International', 'sosi', 'Gigi Melecio', 'Monday - Friday',12, 'Active'),
